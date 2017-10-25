@@ -20,16 +20,21 @@
 #include "include/FaceAnalyser.h"
 #include "include/GazeEstimation.h"
 
+#include "utils/utils.hpp"
+#include "imageAttributes.hpp"
+
 using namespace std;
 using namespace cv;
 
 int main(int argc, char const *argv[])
 {
+  Mat test;
+  test = imread("./img/m-001-1.jpg");
 
+  imageAttributes atr = imageAttributes(test);
 
+  imshow("Hello Word!", test);
+  cvWaitKey(0);
 
-
-
-  /* code */
-  return 0;
+  return EXIT_SUCCESS;
 }
