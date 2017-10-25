@@ -15,11 +15,6 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <tbb/tbb.h>
 
-// OpenFace includes
-#include "include/LandmarkCoreIncludes.h"
-#include "include/FaceAnalyser.h"
-#include "include/GazeEstimation.h"
-
 #include "utils/utils.hpp"
 #include "imageAttributes.hpp"
 

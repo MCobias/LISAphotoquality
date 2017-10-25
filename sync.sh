@@ -1,9 +1,7 @@
 #!/bin/bash
 
-sudo git add .
+git add .
 
-read -p "Enter: " menssage
-
-git commit -m $menssage
+git commit -m "message"
 
 git push -f origin master
