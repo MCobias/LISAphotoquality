@@ -4,8 +4,8 @@
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
 
-#ifndef imageAttributes_HPP
-#define imageAttributes_HPP
+#ifndef ImageAttributes_HPP
+#define ImageAttributes_HPP
 
 #include <iostream>
 #include <opencv2/core/core.hpp>
@@ -15,14 +15,14 @@
 using namespace std;
 using namespace cv;
 
-class imageAttributes
+class ImageAttributes
 {
 public:
     float brightness(cv::Mat image);
     float contrast(cv::Mat image);
     float blur(cv::Mat image);
 
-    imageAttributes(cv::Mat image)
+    ImageAttributes(cv::Mat image)
     {
       cout << "Brightness: " << brightness(image) << endl;
       cout << "Contrast: " << contrast(image) << endl;

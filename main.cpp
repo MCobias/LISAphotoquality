@@ -15,8 +15,9 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <tbb/tbb.h>
 
-#include "utils/utils.hpp"
-#include "imageAttributes.hpp"
+#include "utils/Utils.hpp"
+#include "utils/ImageDegradation.hpp"
+#include "ImageAttributes.hpp"
 
 using namespace std;
 using namespace cv;
@@ -24,9 +25,9 @@ using namespace cv;
 int main(int argc, char const *argv[])
 {
   Mat test;
-  test = imread("./img/m-001-1.jpg");
+  test = imread("./img/IMG_0020.jpg");
 
-  imageAttributes atr = imageAttributes(test);
+  ImageAttributes atr = ImageAttributes(test);
 
   imshow("Hello Word!", test);
   cvWaitKey(0);

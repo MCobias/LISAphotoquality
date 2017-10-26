@@ -5,24 +5,24 @@
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
 
-#include "imageAttributes.hpp"
+#include "ImageAttributes.hpp"
 
-float imageAttributes::brightness(cv::Mat image)
+float ImageAttributes::brightness(cv::Mat image)
 {
-    cv::Mat image_gray;
-    cv::Mat img_temp = image.clone();
-    cvtColor(img_temp, image_gray, CV_BGR2GRAY);
-    cv::Mat image_multiply = image_gray.clone();
-    cv::multiply(image_multiply, cv::Scalar(0.2126, 0.7152, 0.0722), image_multiply);
-    cv::Scalar scalar = cv::sum(image_multiply);
-    return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / image_multiply.size().area();
+    cv::Mat imageGray;
+    cv::Mat imgTemp = image.clone();
+    cvtColor(imgTemp, imageGray, CV_BGR2GRAY);
+    cv::Mat imageMultiply = imageGray.clone();
+    cv::multiply(imageMultiply, cv::Scalar(0.2126, 0.7152, 0.0722), imageMultiply);
+    cv::Scalar scalar = cv::sum(imageMultiply);
+    return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / imageMultiply.size().area();
 }
 
-float imageAttributes::contrast(cv::Mat image)
+float ImageAttributes::contrast(cv::Mat image)
 {
     float contrast = 0;
     float intensity = 0;
-    float brightness = imageAttributes::brightness(image.clone());
+    float brightness = ImageAttributes::brightness(image.clone());
 
     for(int i = 0; i < image.rows; i++ )
     {
@@ -37,16 +37,16 @@ float imageAttributes::contrast(cv::Mat image)
     return contrast;
 }
 
-float imageAttributes::blur(cv::Mat image)
+float ImageAttributes::blur(cv::Mat image)
 {
     short max = -32767;
-    cv::Mat image_gray;
-    cv::Mat img_temp = image.clone();
-    cvtColor(img_temp, image_gray, CV_BGR2GRAY);
+    cv::Mat imageGray;
+    cv::Mat imgTemp = image.clone();
+    cvtColor(imgTemp, imageGray, CV_BGR2GRAY);
 
-    cv::Mat in(image_gray.rows, image_gray.cols, CV_8U);
-    cv::Mat out(image_gray.rows, image_gray.cols, CV_16S);
-    in = image_gray.clone();
+    cv::Mat in(imageGray.rows, imageGray.cols, CV_8U);
+    cv::Mat out(imageGray.rows, imageGray.cols, CV_16S);
+    in = imageGray.clone();
 
     out = cv::Scalar::all(0);
     cv::Laplacian(in, out, CV_16S, 1);

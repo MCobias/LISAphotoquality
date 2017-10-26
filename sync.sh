@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Remove openface. use Dlib for landmarks."
+git commit -m "Aplly programming style(Camel case)."
 
 git push -f origin master

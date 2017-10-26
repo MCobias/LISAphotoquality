@@ -5,28 +5,28 @@
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
 
-#include "imageDegradation.hpp"
+#include "ImageDegradation.hpp"
 
-cv::Mat imageDegradation::gaussianNoise(cv::Mat image)
+cv::Mat ImageDegradation::gaussianNoise(cv::Mat image)
 {
   cv::Mat noise = image.clone();
   cv::randn(noise, 128, 30);
   return noise;
 }
 
-cv::Mat imageDegradation::saltAndPepper(cv::Mat image)
+cv::Mat ImageDegradation::saltAndPepper(cv::Mat image)
 {
-  cv::Mat saltpepper = cv::Mat::zeros(image.rows, image.cols,CV_8U);
-  cv::randu(saltpepper, 0, 255);
-  cv::Mat black = saltpepper < 30;
-  cv::Mat white = saltpepper > 225;
+  cv::Mat saltPepper = cv::Mat::zeros(image.rows, image.cols,CV_8U);
+  cv::randu(saltPepper, 0, 255);
+  cv::Mat black = saltPepper < 30;
+  cv::Mat white = saltPepper > 225;
   cv::Mat result = image.clone();
   result.setTo(255, white);
   result.setTo(0, black);
   return result;
 }
 
-cv::Mat imageDegradation::blur(cv::Mat image)
+cv::Mat ImageDegradation::blur(cv::Mat image)
 {
   cv::Mat result;
   cv::Mat bluring = image.clone();
@@ -34,7 +34,7 @@ cv::Mat imageDegradation::blur(cv::Mat image)
   return result;
 }
 
-cv::Mat imageDegradation::smooth(cv::Mat image)
+cv::Mat ImageDegradation::smooth(cv::Mat image)
 {
   cv::Mat result;
   cv::Mat smoothing = image.clone();

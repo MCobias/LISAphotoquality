@@ -5,21 +5,21 @@
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
 
-#include "utils.hpp"
+#include "Utils.hpp"
 
-bool utils::existsImage(cv::Mat image)
+bool Utils::existsImage(cv::Mat image)
 {
     return (!image.empty());
 }
 
-cv::Mat utils::cutImage(cv::Mat image, cv::Rect form)
+cv::Mat Utils::cutImage(cv::Mat image, cv::Rect form)
 {
-    cv::Mat imageroi;
+    cv::Mat imageRoi;
     cv::Mat rect = image.clone();
     if(existsImage(image))
     {
-        imageroi= rect(form);
-        return imageroi;
+        imageRoi = rect(form);
+        return imageRoi;
     }
-    return imageroi;
+    return imageRoi;
 }
