@@ -17,6 +17,7 @@
 
 #include "utils/Utils.hpp"
 #include "utils/ImageDegradation.hpp"
+#include "utils/EyesCenterTracking.hpp"
 #include "ImageAttributes.hpp"
 
 using namespace std;
@@ -25,9 +26,10 @@ using namespace cv;
 int main(int argc, char const *argv[])
 {
   Mat test;
-  test = imread("./img/IMG_0020.jpg");
+  test = imread("./img/eyes.jpg");
 
   ImageAttributes atr = ImageAttributes(test);
+  EyesCenterTracking eye = EyesCenterTracking();
 
   imshow("Hello Word!", test);
   cvWaitKey(0);

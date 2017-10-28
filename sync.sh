@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Aplly programming style(Camel case)."
+git commit -m "Include functions in Utils."
 
 git push -f origin master

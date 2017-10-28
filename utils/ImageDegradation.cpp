@@ -7,38 +7,38 @@
 
 #include "ImageDegradation.hpp"
 
-cv::Mat ImageDegradation::gaussianNoise(cv::Mat image)
+Mat ImageDegradation::gaussianNoise(Mat image)
 {
-  cv::Mat noise = image.clone();
-  cv::randn(noise, 128, 30);
+  Mat noise = image.clone();
+  randn(noise, 128, 30);
   return noise;
 }
 
-cv::Mat ImageDegradation::saltAndPepper(cv::Mat image)
+Mat ImageDegradation::saltAndPepper(Mat image)
 {
-  cv::Mat saltPepper = cv::Mat::zeros(image.rows, image.cols,CV_8U);
-  cv::randu(saltPepper, 0, 255);
-  cv::Mat black = saltPepper < 30;
-  cv::Mat white = saltPepper > 225;
-  cv::Mat result = image.clone();
+  Mat saltPepper = Mat::zeros(image.rows, image.cols,CV_8U);
+  randu(saltPepper, 0, 255);
+  Mat black = saltPepper < 30;
+  Mat white = saltPepper > 225;
+  Mat result = image.clone();
   result.setTo(255, white);
   result.setTo(0, black);
   return result;
 }
 
-cv::Mat ImageDegradation::blur(cv::Mat image)
+Mat ImageDegradation::bluring(Mat image)
 {
-  cv::Mat result;
-  cv::Mat bluring = image.clone();
-  cv::blur(bluring, result, cv::Size(5,5));
+  Mat result;
+  Mat bluring = image.clone();
+  blur(bluring, result, cv::Size(5,5));
   return result;
 }
 
-cv::Mat ImageDegradation::smooth(cv::Mat image)
+Mat ImageDegradation::smooth(Mat image)
 {
-  cv::Mat result;
-  cv::Mat smoothing = image.clone();
-  cv::GaussianBlur(smoothing, result, cv::Size(5,5), 1.5);
+  Mat result;
+  Mat smoothing = image.clone();
+  GaussianBlur(smoothing, result, Size(5 ,5), 2.5);
   return result;
 }
 

@@ -8,16 +8,17 @@
 #define ImageDegradation_HPP
 
 #include <iostream>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+using namespace std;
 
 class ImageDegradation
 {
 public:
-    cv::Mat gaussianNoise(cv::Mat image);
-    cv::Mat saltAndPepper(cv::Mat image);
-    cv::Mat blur(cv::Mat image);
-    cv::Mat smooth(cv::Mat image);
+    static Mat gaussianNoise(Mat image);
+    static Mat saltAndPepper(Mat image);
+    static Mat bluring(Mat image);
+    static Mat smooth(Mat image);
 };
 #endif
