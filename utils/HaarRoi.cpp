@@ -1,35 +1,10 @@
-/**
-*    Copyright (C) 2016 Lucas Porto, Flávio Vidal and Díbio Borges.
-*/
-
+//
+//  imagetester.cpp
+//  ICAOphotoquality
+//
+//  Copyright Â© 2017 Marcelo Cobias. All rights reserved.
+//
 #include "HaarRoi.hpp"
-
-HaarRoi::HaarRoi(Mat image){
-    
-    loadCascadeClassifier();
-    
-    Rect face = this->findFace(image);
-    Mat imgFace = image(face);
-    Rect eyes = this->findEyesPair(imgFace);
-    this->eyePair = eyes;
-
-    eyes.x += face.x;
-    eyes.y += face.y;
-
-    double percent = (eyes.width * 20) / 100;
-    
-    this->customROI = Rect(eyes);
-  
-    if ((this->customROI.x - percent) > 0)  this->customROI.x -= percent;
-    if ((this->customROI.y - percent) > 0)  this->customROI.y -= percent;
-
-    this->customROI.width += (2 * percent);
-    this->customROI.height *= 6.2;
-}
-
-Rect HaarRoi::getCunstomRoi() {
-    return this->customROI;
-}
 
 /**
 * @brief Load Cascade Classifier
@@ -37,49 +12,102 @@ Rect HaarRoi::getCunstomRoi() {
 * @details Carrega o classificador para identificacao das faces
 *
 */
-void HaarRoi::loadCascadeClassifier() {
-    if (!this->face_cascade.load("haar/haarcascade_frontalface_alt.xml")) {
+void HaarRoi::loadCascadeClassifier()
+{
+    if (!this->faceCascade.load("./data/haarcascade_frontalface_alt.xml"))
+    {
         printf("(!) Error Loading Face Cascade Classifier\n");
     }
-    if (!this->eye_pair_cascade.load("haar/haarcascade_eye_pair_45x11_parojosG.xml")) {
+    if (!this->eyePairCascade.load("./data/haarcascade_eye_pair_45x11_parojosG.xml"))
+    {
         printf("(!) Error Loading Eye Pair Cascade Classifier\n");
     }
 }
 
-Rect HaarRoi::findFace(Mat image) {
-    vector<Rect> faces;
-    faces.clear();
-    face_cascade.detectMultiScale(image, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(150, 100));
-
-    Rect faceAux = faces[0];
-    for (int i = 0; i < faces.size(); i++) {
-        if (this->faceIsCentralized(Rect(0, 0, image.cols, image.rows), faces[i]) == false) {
-            cout << "@WARNING: Face found but it is not centralized..." << endl;
-            continue;
-        }
-        faceAux = faces[i];
-    }
-    return faceAux;
+HaarRoi::HaarRoi(Mat image)
+{
+    loadCascadeClassifier();
+    Mat imageGray = Utils::coloredToGray(image);
+    this->face = this->findFace(imageGray);
+    Mat imgFace = imageGray(face);
+    Rect_<double> eyes = this->findEyesPair(imgFace);
+    this->eyePair = eyes;
+    calculeEyeSingle(imgFace, eyes);
 }
 
-Rect HaarRoi::findEyesPair(Mat face) {
-    vector<Rect> eyePair;
+Rect_<double> HaarRoi::findFace(Mat image)
+{
+  vector<Rect> faces;
+  Rect_<double> singleFace;
+  vector<Rect_<double>> regionsFaces;
+  faceCascade.detectMultiScale(image, faces, 1.2, 2, 0, Size(50, 50));
 
+  if(faces.size() > 0)
+	{
+    regionsFaces.resize(faces.size());
+    for(size_t i = 0; i < regionsFaces.size(); i++)
+	  {
+      regionsFaces[i].width = faces[i].width * 0.8924;
+		  regionsFaces[i].height = faces[i].height * 0.8676;
+		  regionsFaces[i].x = faces[i].x + 0.0578 * faces[i].width;
+		  regionsFaces[i].y = faces[i].y + faces[i].height * 0.2166;
+    }
+
+    if(regionsFaces.size() > 1)
+		{
+			double best = -1;
+			int bestIndex = -1;
+			for(size_t i = 0; i < regionsFaces.size(); i++)
+			{
+				double dist = regionsFaces[i].width;
+				bool better = regionsFaces[i].width > best;
+
+        // Pick a closest face to preffered point or the biggest face
+				if(i == 0 || better)
+				{
+					bestIndex = i;
+					best = dist;
+				}
+			}
+			singleFace = regionsFaces[bestIndex];
+		}
+		else
+		{
+		 return regionsFaces[0];
+    }
+ }
+  else
+  {
+    return Rect_<double>(0,0,0,0);
+  }
+  return singleFace;
+}
+
+Rect_<double> HaarRoi::findEyesPair(Mat face)
+{
+    vector<Rect> eyes;
+    vector<Rect_<double>> eyePair;
     equalizeHist(face, face);
 
-    Rect eyePairRegion;
+    Rect_<double> eyePairRegion;
+    this->eyePairCascade.detectMultiScale(face, eyes, 1.01, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(100, 30));
 
-    eyePair.clear();
-    this->eye_pair_cascade.detectMultiScale(face, eyePair, 1.01, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(100, 30));
-
-    if (eyePair.size() <= 0) {
+    if (eyes.size() == 0)
+    {
         cout << "@WARNING: No Eye Pair found on file ." << endl;
     }
-    else {
-        eyePairRegion = eyePair[0];
-        if (eyePair.size() > 1) {
-            for (int i = 0; i < eyePair.size(); i++) {
-
+    else
+     {
+       eyePair.resize(eyes.size());
+       for(size_t i = 0; i < eyes.size(); i++)
+       {
+          eyePair[i] = eyes[i];
+       }
+       eyePairRegion = eyePair[0];
+        if (eyePair.size() > 1)
+        {
+            for (int i = 0; i < eyePair.size(); i++)
+            {
                 //rectangle(face, eyePair[i], Scalar(0, 255, 0));
                 //imwrite("img_faces/" + imgNome, face);
 
@@ -94,11 +122,11 @@ Rect HaarRoi::findEyesPair(Mat face) {
                 int percent = (int)(eyeWdt * 100) / mainWdt;
                 //cout << "% size: " << percent << endl;
 
-                if (percent >= 74 || percent <= 56) {
+                if (percent >= 74 || percent <= 56)
+                {
                     continue;
                 }
-
-                // Calcular a porcentagem posicao 
+                // Calcular a porcentagem posicao
                 int mainHgt = face.rows;
                 int posEyeP = eyePair[i].y;
 
@@ -106,18 +134,20 @@ Rect HaarRoi::findEyesPair(Mat face) {
                 int percentPos = (int)(posEyeP * 100) / mainHgt;
                // cout << "% pos: " << percentPos << endl;
 
-                if (percentPos >= 34 || percentPos <= 20) {
+                if (percentPos >= 34 || percentPos <= 20)
+                {
                     continue;
                 }
 
                // cout << "Y: " << eyePair[i].y << endl;
-                if (eyePair[i].y >= 120 || eyePair[i].y <= 65) {
+                if (eyePair[i].y >= 120 || eyePair[i].y <= 65)
+                {
                     continue;
                 }
                // cout << "Y REG: " << eyePairRegion.y << endl;
-                if (eyePair[i].width > eyePairRegion.width) {
+                if (eyePair[i].width > eyePairRegion.width)
+                {
                     eyePairRegion = eyePair[i];
-
                 }
             }
         }
@@ -125,33 +155,32 @@ Rect HaarRoi::findEyesPair(Mat face) {
     return eyePairRegion;
 }
 
-
-/**
-* @brief Verify is face is centralizes
-*
-* @details Verifica se a face esta centralizada
-*
-*/
-bool HaarRoi::faceIsCentralized(Rect mainImg, Rect face) {
-    bool res = false;
-
-    int allow = (int)mainImg.width * 0.10;
-    int centerMainImgY = (int)mainImg.height / 2;
-    int centerMainImgX = (int)mainImg.width / 2;
-
-    int minX = centerMainImgX - allow;
-    int maxX = centerMainImgX + allow;
-    int minY = centerMainImgY - allow;
-    int maxY = centerMainImgY + allow;
-
-    int centerFaceX = face.x + ((int)face.width / 2);
-    int centerFaceY = face.y + ((int)face.height / 2);
-
-    if (centerFaceX >= minX && centerFaceX <= maxX &&
-        centerFaceY >= minY && centerFaceY <= maxY) res = true;
-
-    return res;
+void HaarRoi::calculeEyeSingle(Mat imageFace, Rect eyePair)
+{
+  Mat imgRegion = Utils::cutImage(imageFace, eyePair);
+  double midle = imgRegion.cols / 2;
+  this->rectEyeLeft = Rect_<double>(0, 0, midle, imgRegion.rows);
+  this->rectEyeRight = Rect_<double>(midle, 0, midle, imgRegion.rows);
 }
 
-HaarRoi::~HaarRoi(){
+Rect_<double> HaarRoi::getRoiFace()
+{
+    return this->face;
 }
+
+Rect_<double> HaarRoi::getRoiEyersPair()
+{
+    return this->eyePair;
+}
+
+Rect_<double> HaarRoi::getRoiEyeLeft()
+{
+    return this->rectEyeLeft;
+}
+
+Rect_<double> HaarRoi::getRoiEyeRight()
+{
+    return this->rectEyeRight;
+}
+
+HaarRoi::~HaarRoi(){}

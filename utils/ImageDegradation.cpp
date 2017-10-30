@@ -4,7 +4,6 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-
 #include "ImageDegradation.hpp"
 
 Mat ImageDegradation::gaussianNoise(Mat image)

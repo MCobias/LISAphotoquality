@@ -13,14 +13,26 @@ bool Utils::existsImage(Mat image)
 
 Mat Utils::cutImage(Mat image, Rect form)
 {
+  if(existsImage(image))
+  {
     Mat imageRoi;
     Mat rect = image.clone();
-    if(existsImage(image))
-    {
-        imageRoi = rect(form);
-        return imageRoi;
-    }
+    imageRoi = rect(form);
     return imageRoi;
+  }
+  return Mat();
+}
+
+Mat Utils::coloredToGray(Mat image)
+{
+  if(existsImage(image))
+  {
+    Mat imageGray;
+    Mat imgTemp = image.clone();
+    cvtColor(imgTemp, imageGray, CV_BGR2GRAY);
+    return imageGray;
+  }
+  return Mat();
 }
 
 float Utils::getDistanceBtn2Pnts(Point2f p1, Point2f p2)

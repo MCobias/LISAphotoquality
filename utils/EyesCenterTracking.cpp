@@ -1,9 +1,7 @@
 /**
-*    Copyright (C) 2015 Lucas Porto, Flávio Vidal and Díbio Borges.
 *    Using some code from: https://github.com/trishume/eyeLike
 *    http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-
 #include <queue>
 #include "Utils.hpp"
 #include "EyesCenterTracking.hpp"
@@ -101,8 +99,10 @@ Mat EyesCenterTracking::setContournAndFind(Mat drawing, Point pt, vector<vector<
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Point EyesCenterTracking::findEyeCenter(Mat eye){
+Point EyesCenterTracking::findEyeCenter(Mat eye)
+{
     Point eyeCenter;
+    Mat eyeGray = Utils::coloredToGray(eye);
 
     double kGradientThreshold = 50.0;
     int kWeightBlurSize = 5;
@@ -110,11 +110,11 @@ Point EyesCenterTracking::findEyeCenter(Mat eye){
     const bool kEnablePostProcess = true;
     const bool kPlotVectorField = true;
 
-    Mat eyeROIUnscaled = eye;
+    Mat eyeROIUnscaled = eyeGray;
 
     //-- Find the gradient
-    Mat gradientX = computeMatXGradient(eye);
-    Mat gradientY = computeMatXGradient(eye.t()).t();
+    Mat gradientX = computeMatXGradient(eyeGray);
+    Mat gradientY = computeMatXGradient(eyeGray.t()).t();
 
     //-- Normalize and threshold the gradient
     // compute all the magnitudes
@@ -124,7 +124,7 @@ Point EyesCenterTracking::findEyeCenter(Mat eye){
     //double gradientThresh = kGradientThreshold;
     //double gradientThresh = 0;
     //normalize
-    for (int y = 0; y < eye.rows; ++y) {
+    for (int y = 0; y < eyeGray.rows; ++y) {
         double *Xr = gradientX.ptr<double>(y), *Yr = gradientY.ptr<double>(y);
         const double *Mr = mags.ptr<double>(y);
         for (int x = 0; x < eye.cols; ++x) {
@@ -143,7 +143,7 @@ Point EyesCenterTracking::findEyeCenter(Mat eye){
 
     //-- Create a blurred and inverted image for weighting
     Mat weight;
-    GaussianBlur(eye, weight, Size(kWeightBlurSize, kWeightBlurSize), 0, 0);
+    GaussianBlur(eyeGray, weight, Size(kWeightBlurSize, kWeightBlurSize), 0, 0);
     for (int y = 0; y < weight.rows; ++y) {
         unsigned char *row = weight.ptr<unsigned char>(y);
         for (int x = 0; x < weight.cols; ++x) {
@@ -152,7 +152,7 @@ Point EyesCenterTracking::findEyeCenter(Mat eye){
     }
     //imshow(debugWindow,weight);
     //-- Run the algorithm!
-    Mat outSum = Mat::zeros(eye.rows, eye.cols, CV_64F);
+    Mat outSum = Mat::zeros(eyeGray.rows, eyeGray.cols, CV_64F);
     // for each possible gradient location
     // Note: these loops are reversed from the way the paper does them
     // it evaluates every possible center for each gradient location instead of
@@ -195,7 +195,6 @@ Point EyesCenterTracking::findEyeCenter(Mat eye){
         minMaxLoc(out, NULL, &maxVal, NULL, &maxP, mask);
     }
     //return unscalePoint(maxP, eye);
-
     return maxP;
 }
 
@@ -437,7 +436,7 @@ Point EyesCenterTracking::findIrirBorderRight(Mat img, Point pnt) {
     return right;
 }
 
-// 
+//
 
 /**
 * @brief Find left border after contourn.
@@ -654,7 +653,7 @@ vector<Point2f> EyesCenterTracking::getPointPositions(Mat binaryImage)
 
 /**
 * @brief Get points of circles intersections.
-*        
+*
 * @details Funcao para pegar o ponto superior de interseccao de dois circulos.
 *          Baseado: http://paulbourke.net/geometry/circlesphere/tvoght.c
 *
@@ -704,7 +703,7 @@ Point2f EyesCenterTracking::getCirclesIntersection(Point2f p0, float r0, Point2f
             rx = -dy * (h / d);
             ry = dx * (h / d);
 
-            //Determine the absolute intersection points. 
+            //Determine the absolute intersection points.
             Point2f p3a, p3b;
             p3a.x = p2.x + rx;
             p3b.x = p2.x - rx;
@@ -746,7 +745,7 @@ Mat EyesCenterTracking::fillHoles(Mat GrayImage) {
 
     cv::normalize(GrayImage, GrayImage, 0, 255, cv::NORM_MINMAX);
     cv::normalize(dst, dst, 0, 255, cv::NORM_MINMAX);
-    
+
     return GrayImage;
 }
 
@@ -790,7 +789,7 @@ Point2f EyesCenterTracking::getMostWhitePixel(Mat img, bool isLeft) {
                 res = Point2f(j, i);
                 crtAux = true;
                 break;
-                
+
             }
             if (crtAux) break;
         }

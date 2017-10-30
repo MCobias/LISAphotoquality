@@ -1,12 +1,15 @@
-/**
-*    Copyright (C) 2016 Lucas Porto, Flávio Vidal.
-*/
-
+//
+//  imagetester.cpp
+//  ICAOphotoquality
+//
+//  Copyright Â© 2017 Marcelo Cobias. All rights reserved.
+//
 #ifndef HaarRoi_HPP
 #define HaarRoi_HPP
 
 #include <string>
 #include <opencv2/opencv.hpp>
+#include "Utils.hpp"
 
 using namespace std;
 using namespace cv;
@@ -15,16 +18,18 @@ class HaarRoi
 {
 public:
     HaarRoi(Mat image);
-    Rect getCunstomRoi();
+    Rect_<double> getRoiFace();
+    Rect_<double> getRoiEyersPair();
+    Rect_<double> getRoiEyeLeft();
+    Rect_<double> getRoiEyeRight();
     ~HaarRoi();
 private:
-    CascadeClassifier face_cascade, eye_pair_cascade;
-    Rect face, eyePair, customROI;
-    Rect findEyesPair(Mat face);
-    Rect findFace(Mat image);
-    Rect getFace(Mat image);
-    bool faceIsCentralized();
+    CascadeClassifier faceCascade, eyePairCascade;
+    Rect_<double> rectEyeLeft, rectEyeRight;
+    Rect_<double> face, eyePair, customROI;
+    Rect_<double> findEyesPair(Mat face);
+    Rect_<double> findFace(Mat image);
     void loadCascadeClassifier();
-    bool faceIsCentralized(Rect mainImg, Rect face);
+    void calculeEyeSingle(Mat imageFace, Rect eyePair);
 };
 #endif

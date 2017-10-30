@@ -3,7 +3,6 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-
 #ifndef ImageAttributes_HPP
 #define ImageAttributes_HPP
 
@@ -12,15 +11,17 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "utils/Utils.hpp"
+
 using namespace std;
 using namespace cv;
 
 class ImageAttributes
 {
 public:
-    float brightness(cv::Mat image);
-    float contrast(cv::Mat image);
-    float blur(cv::Mat image);
+    float brightness(Mat image);
+    float contrast(Mat image);
+    float blur(Mat image);
 
     ImageAttributes(cv::Mat image)
     {

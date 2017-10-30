@@ -1,11 +1,14 @@
-/**
-*    Copyright (C) 2015 Lucas Porto, Flávio Vidal.
-*/
-
+//
+//  imagetester.cpp
+//  ICAOphotoquality
+//
+//  Copyright Â© 2017 Marcelo Cobias. All rights reserved.
+//
 #ifndef EyesCenterTracking_HPP
 #define EyesCenterTracking_HPP
 
 #include <opencv2/opencv.hpp>
+#include "Utils.hpp"
 
 using namespace cv;
 using namespace std;

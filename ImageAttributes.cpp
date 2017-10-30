@@ -4,21 +4,17 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-
 #include "ImageAttributes.hpp"
 
-float ImageAttributes::brightness(cv::Mat image)
+float ImageAttributes::brightness(Mat image)
 {
-    cv::Mat imageGray;
-    cv::Mat imgTemp = image.clone();
-    cvtColor(imgTemp, imageGray, CV_BGR2GRAY);
-    cv::Mat imageMultiply = imageGray.clone();
-    cv::multiply(imageMultiply, cv::Scalar(0.2126, 0.7152, 0.0722), imageMultiply);
-    cv::Scalar scalar = cv::sum(imageMultiply);
-    return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / imageMultiply.size().area();
+    Mat imageGray = Utils::coloredToGray(image);
+    multiply(imageGray, Scalar(0.2126, 0.7152, 0.0722), imageGray);
+    Scalar scalar = sum(imageGray);
+    return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / imageGray.size().area();
 }
 
-float ImageAttributes::contrast(cv::Mat image)
+float ImageAttributes::contrast(Mat image)
 {
     float contrast = 0;
     float intensity = 0;
@@ -37,15 +33,12 @@ float ImageAttributes::contrast(cv::Mat image)
     return contrast;
 }
 
-float ImageAttributes::blur(cv::Mat image)
+float ImageAttributes::blur(Mat image)
 {
     short max = -32767;
-    cv::Mat imageGray;
-    cv::Mat imgTemp = image.clone();
-    cvtColor(imgTemp, imageGray, CV_BGR2GRAY);
-
-    cv::Mat in(imageGray.rows, imageGray.cols, CV_8U);
-    cv::Mat out(imageGray.rows, imageGray.cols, CV_16S);
+    Mat imageGray = Utils::coloredToGray(image);
+    Mat in(imageGray.rows, imageGray.cols, CV_8U);
+    Mat out(imageGray.rows, imageGray.cols, CV_16S);
     in = imageGray.clone();
 
     out = cv::Scalar::all(0);
