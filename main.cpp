@@ -41,8 +41,13 @@ int main(int argc, char const *argv[])
   Point leftEyePoint = eye.findEyeCenter(left);
   Point rightEyePoint = eye.findEyeCenter(right);
 
+  Point cornerleftEyePoint = eye.findIrirBorderLeft(left, leftEyePoint);
+  Point cornerrightEyePoint = eye.findIrirBorderRight(right, rightEyePoint);
+
   circle(left, leftEyePoint, 1, Scalar(255, 0, 0));
+  circle(left, cornerleftEyePoint, 1, Scalar(255, 0, 0));
   circle(right, rightEyePoint, 1, Scalar(255, 0, 0));
+  circle(right, cornerrightEyePoint, 1, Scalar(255, 0, 0));
 
   imshow("Hello Word!1", right);
   imshow("Hello Word!2", left);

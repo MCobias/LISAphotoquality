@@ -41,4 +41,27 @@ Mat ImageDegradation::smooth(Mat image)
   return result;
 }
 
-//add func set max and min: shadows and Lighting
+// Brightness(Alpha gain) and contrast(Beta bias)
+Mat ImageDegradation::basicLinearTransform(Mat image, double alpha, int beta)
+{
+    Mat res, imgCorrected;
+    image.convertTo(res, -1, alpha, beta);
+    hconcat(image, res, imgCorrected);
+    return imgCorrected;
+}
+
+// Gamma
+Mat ImageDegradation::gamma(Mat image, double gamma)
+{
+    CV_Assert(gamma >= 0);
+    Mat imgGammaCorrected;
+    Mat lookUpTable(1, 256, CV_8U);
+    uchar* p = lookUpTable.ptr();
+    for( int i = 0; i < 256; ++i)
+        p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+
+    Mat res = image.clone();
+    LUT(image, lookUpTable, res);
+    hconcat(image, res, imgGammaCorrected);
+    return imgGammaCorrected;
+}

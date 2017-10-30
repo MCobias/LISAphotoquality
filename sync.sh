@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Include functions: Find face, eyes pair and get center pupil."
+git commit -m "Include functions: Control Brightness, contrast and gamma in ImageDegradation."
 
 git push -f origin master

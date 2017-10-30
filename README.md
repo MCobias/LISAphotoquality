@@ -1,4 +1,4 @@
-# ICAOphotoquality: Analysis automatic facial images for passports photos. 
+# ICAOphotoquality: Analysis automatic facial images for passports photos.
 
 ## Functionality
 
@@ -13,13 +13,13 @@ If you use any of the resources provided on this page in any of your publication
 #### Face pose estimation
 
 **Robust 3D Head Tracking using Camera Pose Estimation**
-Shay Ohayon and Ehud Rivlin *Technion - Computer Science Department - Tehnical Report*, 2006 
+Shay Ohayon and Ehud Rivlin *Technion - Computer Science Department - Tehnical Report*, 2006
 
 #### Eye gaze tracking
 
 **Rendering of Eyes for Eye-Shape Registration and Gaze Estimation**
-Erroll Wood, Tadas Baltrušaitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling 
-in *IEEE International. Conference on Computer Vision (ICCV)*,  2015 
+Erroll Wood, Tadas Baltrušaitis, Xucong Zhang, Yusuke Sugano, Peter Robinson, and Andreas Bulling
+in *IEEE International. Conference on Computer Vision (ICCV)*,  2015
 
 #### Hair detection
 
@@ -29,5 +29,4 @@ in *IEEE International. Conference on Computer Vision (ICCV)*,  2015
 
 Copyright can be found in the Copyright.txt
 
-You have to respect boost, tinyxml, xlsxwriter, dlib and opencv licenses.
-
+You have to respect boost, dlib and opencv licenses.

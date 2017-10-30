@@ -19,5 +19,7 @@ public:
     static Mat saltAndPepper(Mat image);
     static Mat bluring(Mat image);
     static Mat smooth(Mat image);
+    static Mat basicLinearTransform(Mat image, double alpha = 0, int beta = 0);
+    static Mat gamma(Mat image, double gamma = 0);
 };
 #endif
