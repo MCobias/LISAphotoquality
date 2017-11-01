@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Include functions: Control Brightness, contrast and gamma in ImageDegradation."
+git commit -m "Include functions: capture landmarks points."
 
 git push -f origin master

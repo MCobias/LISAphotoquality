@@ -19,15 +19,17 @@ using namespace cv;
 class ImageAttributes
 {
 public:
-    float brightness(Mat image);
-    float contrast(Mat image);
-    float blur(Mat image);
-
-    ImageAttributes(cv::Mat image)
-    {
-      cout << "Brightness: " << brightness(image) << endl;
-      cout << "Contrast: " << contrast(image) << endl;
-      cout << "Blur: " << blur(image) << endl;
-    }
+      float getBrightness();
+      float getContrast();
+      float getBlur();
+      ImageAttributes(Mat image);
+      ~ImageAttributes();
+private:
+    float brightness = 0.0;
+    float contrast = 0.0;
+    float blur = 0.0;
+    float calcBrightness(Mat image);
+    float calcContrast(Mat image);
+    float calcBlur(Mat image);
 };
 #endif

@@ -27,20 +27,20 @@ public:
   static Mat cutImage(Mat image, Rect form);
   static float getDistanceBtn2Pnts(Point2f p1, Point2f p2);
   static Mat coloredToGray(Mat image);
-  vector<string> splitAtCommas(const string& row);
-  string intToStr(int val);
-  string floToStr(float val);
-  void replaceStringInPlace(string& subject, const string& search, const string& replace);
-  float srtToNumber(string &Text);
-  bool isValidImage(string imgName);
-  vector<string> divStr(string const & s, char delim);
-  vector<string> getListPathFilesImage(string path);
-  bool isDirExist(string path);
-  bool makePath(string path);
-  bool intersecPoints(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r);
-  void glcm(Mat &img, vector<float> &values);
+  static vector<string> splitAtCommas(const string& row);
+  static string intToStr(int val);
+  static string floToStr(float val);
+  static void replaceStringInPlace(string& subject, const string& search, const string& replace);
+  static float srtToNumber(string &Text);
+  static bool isValidImage(string imgName);
+  static vector<string> divStr(string const & s, char delim);
+  static vector<string> getListPathFilesImage(string path);
+  static bool isDirExist(string path);
+  static bool makePath(string path);
+  static bool intersecPoints(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r);
+  static void glcm(Mat &img, vector<float> &values);
   static void showHistogram(Mat& img);
-  Vec3b getColorSubpix(const Mat& img, Point2f pt);
+  static Vec3b getColorSubpix(const Mat& img, Point2f pt);
 
 };
 #endif

@@ -6,7 +6,14 @@
 //
 #include "ImageAttributes.hpp"
 
-float ImageAttributes::brightness(Mat image)
+ImageAttributes::ImageAttributes(Mat image)
+{
+  this->brightness = this->calcBrightness(image);
+  this->contrast = this->calcContrast(image);
+  this->blur = this->calcBlur(image);
+}
+float ImageAttributes::calcBrightness(Mat image)
+
 {
     Mat imageGray = Utils::coloredToGray(image);
     multiply(imageGray, Scalar(0.2126, 0.7152, 0.0722), imageGray);
@@ -14,11 +21,11 @@ float ImageAttributes::brightness(Mat image)
     return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / imageGray.size().area();
 }
 
-float ImageAttributes::contrast(Mat image)
+float ImageAttributes::calcContrast(Mat image)
 {
     float contrast = 0;
     float intensity = 0;
-    float brightness = ImageAttributes::brightness(image.clone());
+    float brightness = ImageAttributes::calcBrightness(image);
 
     for(int i = 0; i < image.rows; i++ )
     {
@@ -33,7 +40,7 @@ float ImageAttributes::contrast(Mat image)
     return contrast;
 }
 
-float ImageAttributes::blur(Mat image)
+float ImageAttributes::calcBlur(Mat image)
 {
     short max = -32767;
     Mat imageGray = Utils::coloredToGray(image);
@@ -55,5 +62,21 @@ float ImageAttributes::blur(Mat image)
     }
     return max;
 }
+
+float ImageAttributes::getBrightness()
+{
+    return this->brightness;
+}
+
+float ImageAttributes::getContrast()
+{
+    return this->contrast;
+}
+float ImageAttributes::getBlur()
+{
+    return this->blur;
+}
+
+ImageAttributes::~ImageAttributes(){}
 
 // add func calcule nivel noise (Histogram)
