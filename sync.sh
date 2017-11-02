@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Include class: EyeFeature and MouthFeature."
+git commit -m "Include model: Analisis."
 
 git push -f origin master

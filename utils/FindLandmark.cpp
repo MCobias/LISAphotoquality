@@ -108,6 +108,11 @@ cv::Point FindLandmark::getFaceRightEye()
   return (rightEye / 6);
 }
 
+/*void identifiermouth::getLandkarkMouth(std::vector<cv::Point2f> landmarks)
+{
+    landmarks_lips = std::vector<cv::Point2f>(landmarks.begin() + 48, landmarks.begin() + 68);
+}*/
+
 float FindLandmark::getFaceApproxVertAngle()
 {
   if (landmarksFace.size() != 68) return 0;
