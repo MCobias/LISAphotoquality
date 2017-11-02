@@ -3,8 +3,8 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#ifndef Utils_HPP
-#define Utils_HPP
+#ifndef Util_HPP
+#define Util_HPP
 
 #include <fstream>
 #include <sys/stat.h>
@@ -20,7 +20,7 @@
 using namespace cv;
 using namespace std;
 
-class Utils
+class Util
 {
 public:
   static bool existsImage(Mat image);
@@ -41,6 +41,5 @@ public:
   static void glcm(Mat &img, vector<float> &values);
   static void showHistogram(Mat& img);
   static Vec3b getColorSubpix(const Mat& img, Point2f pt);
-
 };
 #endif

@@ -82,7 +82,7 @@ bool FindLandmark::printLandmarks(cv::Mat &image, vector<cv::Point> landmarks, i
 	cv::line(image, landmarks[60], landmarks[67], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 0; i < landmarks.size(); i++)
-		cv::putText(image, Utils::intToStr(i), landmarks[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
+		cv::putText(image, Util::intToStr(i), landmarks[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
   return true;
 }
 

@@ -7,8 +7,8 @@
 #ifndef EyesCenterTracking_HPP
 #define EyesCenterTracking_HPP
 
+#include "Util.hpp"
 #include <opencv2/opencv.hpp>
-#include "Utils.hpp"
 
 using namespace cv;
 using namespace std;
@@ -38,7 +38,6 @@ public:
     vector<Point2f> getPointPositions(Mat binaryImage);
     Point2f getCirclesIntersection(Point2f p0, float r0, Point2f p1, float r1);
     Point2f getMostWhitePixel(Mat GrayImage, bool isLeft);
-
 private:
     Mat floodKillEdges(Mat &mat);
     Mat computeMatXGradient(const Mat &mat);

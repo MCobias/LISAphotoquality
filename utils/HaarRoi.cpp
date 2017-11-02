@@ -27,7 +27,7 @@ void HaarRoi::loadCascadeClassifier()
 HaarRoi::HaarRoi(Mat image)
 {
     loadCascadeClassifier();
-    Mat imageGray = Utils::coloredToGray(image);
+    Mat imageGray = Util::coloredToGray(image);
     this->face = this->findFace(imageGray);
     Mat imgFace = imageGray(face);
     Rect_<double> eyes = this->findEyesPair(imgFace);
@@ -157,7 +157,7 @@ Rect_<double> HaarRoi::findEyesPair(Mat face)
 
 void HaarRoi::calculeEyeSingle(Mat imageFace, Rect eyePair)
 {
-  Mat imgRegion = Utils::cutImage(imageFace, eyePair);
+  Mat imgRegion = Util::cutImage(imageFace, eyePair);
   double midle = imgRegion.cols / 2;
   this->rectEyeLeft = Rect_<double>(0, 0, midle, imgRegion.rows);
   this->rectEyeRight = Rect_<double>(midle, 0, midle, imgRegion.rows);

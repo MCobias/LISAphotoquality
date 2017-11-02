@@ -3,7 +3,7 @@
 *    http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
 #include <queue>
-#include "Utils.hpp"
+#include "Util.hpp"
 #include "EyesCenterTracking.hpp"
 
 using namespace std;
@@ -102,7 +102,7 @@ Mat EyesCenterTracking::setContournAndFind(Mat drawing, Point pt, vector<vector<
 Point EyesCenterTracking::findEyeCenter(Mat eye)
 {
     Point eyeCenter;
-    Mat eyeGray = Utils::coloredToGray(eye);
+    Mat eyeGray = Util::coloredToGray(eye);
 
     double kGradientThreshold = 50.0;
     int kWeightBlurSize = 5;

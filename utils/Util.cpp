@@ -4,14 +4,14 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#include "Utils.hpp"
+#include "Util.hpp"
 
-bool Utils::existsImage(Mat image)
+bool Util::existsImage(Mat image)
 {
     return (!image.empty());
 }
 
-Mat Utils::cutImage(Mat image, Rect form)
+Mat Util::cutImage(Mat image, Rect form)
 {
   if(existsImage(image))
   {
@@ -23,7 +23,7 @@ Mat Utils::cutImage(Mat image, Rect form)
   return Mat();
 }
 
-Mat Utils::coloredToGray(Mat image)
+Mat Util::coloredToGray(Mat image)
 {
   if(existsImage(image))
   {
@@ -35,7 +35,7 @@ Mat Utils::coloredToGray(Mat image)
   return Mat();
 }
 
-float Utils::getDistanceBtn2Pnts(Point2f p1, Point2f p2)
+float Util::getDistanceBtn2Pnts(Point2f p1, Point2f p2)
 {
     float distance = norm(p1 - p2);
     return(distance);
@@ -50,7 +50,7 @@ float Utils::getDistanceBtn2Pnts(Point2f p1, Point2f p2)
 *
 * @return vector<string> res.
 */
-vector<string> Utils::splitAtCommas(const string& row)
+vector<string> Util::splitAtCommas(const string& row)
 {
     vector<string> res;
     istringstream buf(row);
@@ -70,7 +70,7 @@ vector<string> Utils::splitAtCommas(const string& row)
 * @return string s String value
 */
 
-string Utils::intToStr(int val)
+string Util::intToStr(int val)
 {
     string s;
     stringstream out;
@@ -88,7 +88,7 @@ string Utils::intToStr(int val)
 *
 * @return string ss String value
 */
-string Utils::floToStr(float val)
+string Util::floToStr(float val)
 {
     val = ceil(val * 100) / 100;
     ostringstream ss;
@@ -96,7 +96,7 @@ string Utils::floToStr(float val)
     return(ss.str());
 }
 
-void Utils::replaceStringInPlace(string& subject, const string& search, const string& replace)
+void Util::replaceStringInPlace(string& subject, const string& search, const string& replace)
 {
     size_t pos = 0;
     while ((pos = subject.find(search, pos)) != string::npos)
@@ -115,7 +115,7 @@ void Utils::replaceStringInPlace(string& subject, const string& search, const st
 *
 * @return int ss Number value
 */
-float Utils::srtToNumber(string &Text)
+float Util::srtToNumber(string &Text)
 {
     replaceStringInPlace(Text, ",", ".");
     float result = 0;
@@ -132,7 +132,7 @@ float Utils::srtToNumber(string &Text)
 *
 * @return res Is a valid image name.
 */
-bool Utils::isValidImage(string imgName)
+bool Util::isValidImage(string imgName)
 {
     bool res = false;
 
@@ -155,7 +155,7 @@ bool Utils::isValidImage(string imgName)
 *
 * @return delim characterer to split the string.
 */
-vector<string> Utils::divStr(string const & s, char delim)
+vector<string> Util::divStr(string const & s, char delim)
 {
     vector<string> result;
     istringstream iss(s);
@@ -168,7 +168,7 @@ vector<string> Utils::divStr(string const & s, char delim)
     return result;
 }
 
-vector<string> Utils::getListPathFilesImage(string path)
+vector<string> Util::getListPathFilesImage(string path)
 {
     path += "/*";
     vector<string> types = {".png", ".PNG", ".jpg", ".JPG", ".ppm", ".PPM"};
@@ -193,7 +193,7 @@ vector<string> Utils::getListPathFilesImage(string path)
     return files;
 }
 
-bool Utils::isDirExist(string path)
+bool Util::isDirExist(string path)
 {
     struct stat info;
     if (stat(path.c_str(), &info) != 0)
@@ -204,7 +204,7 @@ bool Utils::isDirExist(string path)
     return (info.st_mode & S_IFDIR) != 0;
 }
 
-bool Utils::makePath(string path)
+bool Util::makePath(string path)
 {
     mode_t mode = 0755;
     int ret = mkdir(path.c_str(), mode);
@@ -233,7 +233,7 @@ bool Utils::makePath(string path)
 
 // Finds the intersection of two lines, or returns false.
 // The lines are defined by (o1, p1) and (o2, p2).
-bool Utils::intersecPoints(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r)
+bool Util::intersecPoints(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point2f &r)
 {
     Point2f x = o2 - o1;
     Point2f d1 = p1 - o1;
@@ -248,7 +248,7 @@ bool Utils::intersecPoints(Point2f o1, Point2f p1, Point2f o2, Point2f p2, Point
     return true;
 }
 
-void Utils::glcm(Mat &img,  vector<float> &values)
+void Util::glcm(Mat &img,  vector<float> &values)
 {
     values = vector<float>(6);
     int row=img.rows,col=img.cols;
@@ -280,7 +280,7 @@ void Utils::glcm(Mat &img,  vector<float> &values)
     }
 }
 
-void Utils::showHistogram(Mat& img)
+void Util::showHistogram(Mat& img)
 {
     int bins = img.cols;             // number of bins
     int nc = img.channels();    // number of channels
@@ -331,7 +331,7 @@ void Utils::showHistogram(Mat& img)
     }
 }
 
-Vec3b Utils::getColorSubpix(const Mat& img, Point2f pt)
+Vec3b Util::getColorSubpix(const Mat& img, Point2f pt)
 {
     assert(!img.empty());
     assert(img.channels() == 3);

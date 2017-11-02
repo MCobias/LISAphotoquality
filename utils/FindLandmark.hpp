@@ -9,7 +9,7 @@
 #include <iostream>
 #include <opencv2/imgproc.hpp>
 
-#include "Utils.hpp"
+#include "Util.hpp"
 #include <dlib/opencv.h>
 #include <dlib/image_processing.h>
 #include <dlib/image_processing/frontal_face_detector.h>

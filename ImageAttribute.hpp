@@ -3,27 +3,27 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#ifndef ImageAttributes_HPP
-#define ImageAttributes_HPP
+#ifndef ImageAttribute_HPP
+#define ImageAttribute_HPP
 
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-#include "utils/Utils.hpp"
+#include "utils/Util.hpp"
 
 using namespace std;
 using namespace cv;
 
-class ImageAttributes
+class ImageAttribute
 {
 public:
       float getBrightness();
       float getContrast();
       float getBlur();
-      ImageAttributes(Mat image);
-      ~ImageAttributes();
+      ImageAttribute(Mat image);
+      ~ImageAttribute();
 private:
     float brightness = 0.0;
     float contrast = 0.0;

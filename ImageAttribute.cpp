@@ -3,28 +3,28 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#include "ImageAttributes.hpp"
+#include "ImageAttribute.hpp"
 
-ImageAttributes::ImageAttributes(Mat image)
+ImageAttribute::ImageAttribute(Mat image)
 {
   this->brightness = this->calcBrightness(image);
   this->contrast = this->calcContrast(image);
   this->blur = this->calcBlur(image);
 }
-float ImageAttributes::calcBrightness(Mat image)
+float ImageAttribute::calcBrightness(Mat image)
 
 {
-    Mat imageGray = Utils::coloredToGray(image);
+    Mat imageGray = Util::coloredToGray(image);
     multiply(imageGray, Scalar(0.2126, 0.7152, 0.0722), imageGray);
     Scalar scalar = sum(imageGray);
     return (scalar.val[0] + scalar.val[1] + scalar.val[2]) / imageGray.size().area();
 }
 
-float ImageAttributes::calcContrast(Mat image)
+float ImageAttribute::calcContrast(Mat image)
 {
     float contrast = 0;
     float intensity = 0;
-    float brightness = ImageAttributes::calcBrightness(image);
+    float brightness = ImageAttribute::calcBrightness(image);
 
     for(int i = 0; i < image.rows; i++ )
     {
@@ -39,10 +39,10 @@ float ImageAttributes::calcContrast(Mat image)
     return contrast;
 }
 
-float ImageAttributes::calcBlur(Mat image)
+float ImageAttribute::calcBlur(Mat image)
 {
     short max = -32767;
-    Mat imageGray = Utils::coloredToGray(image);
+    Mat imageGray = Util::coloredToGray(image);
     Mat in(imageGray.rows, imageGray.cols, CV_8U);
     Mat out(imageGray.rows, imageGray.cols, CV_16S);
     in = imageGray.clone();
@@ -62,20 +62,20 @@ float ImageAttributes::calcBlur(Mat image)
     return max;
 }
 
-float ImageAttributes::getBrightness()
+float ImageAttribute::getBrightness()
 {
     return this->brightness;
 }
 
-float ImageAttributes::getContrast()
+float ImageAttribute::getContrast()
 {
     return this->contrast;
 }
-float ImageAttributes::getBlur()
+float ImageAttribute::getBlur()
 {
     return this->blur;
 }
 
-ImageAttributes::~ImageAttributes(){}
+ImageAttribute::~ImageAttribute(){}
 
 // add func calcule nivel noise (Histogram)
