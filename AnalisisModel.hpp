@@ -26,5 +26,4 @@ enum analysisCode
     missMouthBeardObstruction = 22,
     missMouthOpen = 23
 };
-
 #endif

@@ -523,7 +523,7 @@ int EyesCenterTracking::maxDistanceBtnPoints(vector<Point> contourPoints) {
     for (int i = 0; i < contourPoints.size(); i++) {
         for (int j = 0; j < contourPoints.size(); j++) {
             if (i == j) continue;
-            dist = Utils::getDistanceBtn2Pnts(contourPoints[i], contourPoints[j]);
+            dist = Util::getDistanceBtn2Pnts(contourPoints[i], contourPoints[j]);
             if (dist > maxDist) maxDist = dist;
         }
     }

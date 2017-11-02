@@ -3,7 +3,6 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-
 #ifndef FaceFeature_HPP
 #define FaceFeature_HPP
 

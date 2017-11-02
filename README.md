@@ -4,7 +4,7 @@
 
 Analysis automatic for the suitability of facial images according to the standard ICAO/ISO 19794-5.
 
-<img src="./prototype.jpeg" width="100%"></img>
+<img src="./prototype.jpg" width="100%"></img>
 
 ## Citation
 

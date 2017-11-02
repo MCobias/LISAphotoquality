@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Include model: Analisis."
+git commit -m "Organization and add new prototype image."
 
 git push -f origin master
