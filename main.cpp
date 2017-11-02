@@ -6,10 +6,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
-// Dlib includes
-#include <dlib/image_processing/frontal_face_detector.h>
-#include <tbb/tbb.h>
-
 //Local includes
 #include "utils/Utils.hpp"
 #include "utils/ImageDegradation.hpp"
@@ -24,7 +20,7 @@ using namespace cv;
 int main(int argc, char const *argv[])
 {
   Mat test;
-  test = imread("./img/01.png");
+  test = imread("./img/00003_940307_fa_a.jpg");
 
   ImageAttributes atr = ImageAttributes(test);
   EyesCenterTracking eye = EyesCenterTracking();

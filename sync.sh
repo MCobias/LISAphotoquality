@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Include functions: capture landmarks points."
+git commit -m "Include class: FaceFeature."
 
 git push -f origin master
