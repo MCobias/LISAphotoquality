@@ -12,8 +12,6 @@
 #include "Util.hpp"
 #include <dlib/opencv.h>
 #include <dlib/image_processing.h>
-#include <dlib/image_processing/frontal_face_detector.h>
-#include <dlib/image_processing/render_face_detections.h>
 #include <dlib/image_processing/shape_predictor.h>
 
 const float MAXFACEANGLE = 75.0f;
@@ -23,11 +21,12 @@ class FindLandmark
 public:
   void loadShapePredictor();
   FindLandmark(cv::Mat image, cv::Rect rectFace);
-  cv::Point getFaceLeftEye();
-  cv::Point getFaceRightEye();
+  cv::Point getLeftCenterEye();
+  cv::Point getRightCenterEye();
+  std::vector<cv::Point> getMouth();
   cv::Point3f getFaceApproxEulerAngles();
   cv::Rect getFaceBBoxFromLandmarks(std::vector<cv::Point> landmarks, cv::Size imageSize, bool square);
-  bool printLandmarks(cv::Mat &image, std::vector<cv::Point> landmarks, int thickness);
+  bool printLandmarks(cv::Mat &image, int thickness);
   std::vector<cv::Point> getLandmark();
   ~FindLandmark();
 private:

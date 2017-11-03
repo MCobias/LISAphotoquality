@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Organization and add new prototype image."
+git commit -m "Organization and remove some bugs."
 
 git push -f origin master

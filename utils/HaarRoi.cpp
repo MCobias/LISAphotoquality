@@ -14,25 +14,25 @@
 */
 void HaarRoi::loadCascadeClassifier()
 {
-    if (!this->faceCascade.load("./data/haarcascade_frontalface_alt.xml"))
-    {
-        printf("(!) Error Loading Face Cascade Classifier\n");
-    }
-    if (!this->eyePairCascade.load("./data/haarcascade_eye_pair_45x11_parojosG.xml"))
-    {
-        printf("(!) Error Loading Eye Pair Cascade Classifier\n");
-    }
+  if (!this->faceCascade.load("./data/haarcascade_frontalface_alt.xml"))
+  {
+    printf("(!) Error Loading Face Cascade Classifier\n");
+  }
+  if (!this->eyePairCascade.load("./data/haarcascade_eye_pair_45x11_parojosG.xml"))
+  {
+    printf("(!) Error Loading Eye Pair Cascade Classifier\n");
+  }
 }
 
 HaarRoi::HaarRoi(Mat image)
 {
-    loadCascadeClassifier();
-    Mat imageGray = Util::coloredToGray(image);
-    this->face = this->findFace(imageGray);
-    Mat imgFace = imageGray(face);
-    Rect_<double> eyes = this->findEyesPair(imgFace);
-    this->eyePair = eyes;
-    calculeEyeSingle(imgFace, eyes);
+  loadCascadeClassifier();
+  Mat imageGray = Util::coloredToGray(image);
+  this->face = this->findFace(imageGray);
+  Mat imgFace = imageGray(face);
+  Rect_<double> eyes = this->findEyesPair(imgFace);
+  this->eyePair = eyes;
+  calculeEyeSingle(imgFace, eyes);
 }
 
 Rect_<double> HaarRoi::findFace(Mat image)

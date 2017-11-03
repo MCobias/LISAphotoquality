@@ -44,49 +44,49 @@ std::vector<cv::Point> FindLandmark::extractPoints(cv::Mat image, cv::Rect rectF
   return pointsFace;
 }
 
-bool FindLandmark::printLandmarks(cv::Mat &image, vector<cv::Point> landmarks, int thickness)
+bool FindLandmark::printLandmarks(cv::Mat &image, int thickness)
 {
-  if (landmarks.size() != 68)
+  if (landmarksFace.size() != 68)
     return false;
 
 	for(size_t i = 1; i <= 16; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 28; i <= 30; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 18; i <= 21; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 23; i <= 26; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 31; i <= 35; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
-	cv::line(image, landmarks[30], landmarks[35], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
+	cv::line(image, landmarksFace[30], landmarksFace[35], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 37; i <= 41; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
-	cv::line(image, landmarks[36], landmarks[41], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
+	cv::line(image, landmarksFace[36], landmarksFace[41], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 43; i <= 47; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
-	cv::line(image, landmarks[42], landmarks[47], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
+	cv::line(image, landmarksFace[42], landmarksFace[47], cv::Scalar(0, 0, 255), thickness);
 
 	for(size_t i = 49; i <= 59; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
-	cv::line(image, landmarks[48], landmarks[59], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
+	cv::line(image, landmarksFace[48], landmarksFace[59], cv::Scalar(0, 0, 255), thickness);
 
 	for (size_t i = 61; i <= 67; i++)
-		cv::line(image, landmarks[i], landmarks[i - 1], cv::Scalar(0, 0, 255), thickness);
-	cv::line(image, landmarks[60], landmarks[67], cv::Scalar(0, 0, 255), thickness);
+		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
+	cv::line(image, landmarksFace[60], landmarksFace[67], cv::Scalar(0, 0, 255), thickness);
 
-	for(size_t i = 0; i < landmarks.size(); i++)
-		cv::putText(image, Util::intToStr(i), landmarks[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
+	for(size_t i = 0; i < landmarksFace.size(); i++)
+		cv::putText(image, Util::intToStr(i), landmarksFace[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
   return true;
 }
 
-cv::Point FindLandmark::getFaceLeftEye()
+cv::Point FindLandmark::getLeftCenterEye()
 {
   if (landmarksFace.size() != 68) return Point2f();
 
@@ -97,7 +97,7 @@ cv::Point FindLandmark::getFaceLeftEye()
   return (leftEye / 6);
 }
 
-cv::Point FindLandmark::getFaceRightEye()
+cv::Point FindLandmark::getRightCenterEye()
 {
   if (landmarksFace.size() != 68) return Point2f();
 
@@ -108,17 +108,23 @@ cv::Point FindLandmark::getFaceRightEye()
   return (rightEye / 6);
 }
 
-/*void identifiermouth::getLandkarkMouth(std::vector<cv::Point2f> landmarks)
+std::vector<cv::Point> FindLandmark::getMouth()
 {
-    landmarks_lips = std::vector<cv::Point2f>(landmarks.begin() + 48, landmarks.begin() + 68);
-}*/
+    if (landmarksFace.size() != 68) return std::vector<cv::Point>();
+
+    std::vector<cv::Point> mouthPoints;
+    for (size_t i = 48; i <= 67; i++)
+     mouthPoints.push_back(landmarksFace[i]);
+
+    return mouthPoints;
+}
 
 float FindLandmark::getFaceApproxVertAngle()
 {
   if (landmarksFace.size() != 68) return 0;
 
-  cv::Point leftEye = getFaceLeftEye();
-  cv::Point rightEye = getFaceRightEye();
+  cv::Point leftEye = getLeftCenterEye();
+  cv::Point rightEye = getRightCenterEye();
   cv::Point x1 = landmarksFace[0], x2 = landmarksFace[16];
   cv::Point v = x2 - x1;
   cv::Point leftEyeDir = x1 - leftEye;
@@ -148,8 +154,8 @@ float FindLandmark::getFaceApproxTiltAngle()
 {
   if (landmarksFace.size() != 68) return 0;
 
-  cv::Point leftEye = getFaceLeftEye();
-  cv::Point rightEye = getFaceRightEye();
+  cv::Point leftEye = getLeftCenterEye();
+  cv::Point rightEye = getRightCenterEye();
   cv::Point v = leftEye - rightEye;
   return atan2(v.y, v.x);
 }

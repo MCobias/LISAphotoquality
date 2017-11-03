@@ -15,41 +15,49 @@
 using namespace std;
 using namespace cv;
 
-int main(int argc, char const *argv[])
+void test()
 {
   Mat test;
-  test = imread("./img/00003_940307_fa_a.jpg");
-
-  ImageAttribute atr = ImageAttribute(test);
-  EyesCenterTracking eye = EyesCenterTracking();
-  Util::showHistogram(test);
+  test = imread("./img/good/03.jpg");
 
   HaarRoi elemets = HaarRoi(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
-  imshow("Hello Word!", face);
+  imshow("Face: ", face);
 
   FindLandmark land = FindLandmark(test, elemets.getRoiFace());
-  if(land.printLandmarks(test, land.getLandmark(), 1))
-      imshow("Hello Word!1", test);
-  //Mat eyes = Util::cutImage(face, elemets.getRoiEyersPair());
-
-  //Mat right = Util::cutImage(eyes, elemets.getRoiEyeRight());
-  //Mat left = Util::cutImage(eyes, elemets.getRoiEyeLeft());
-
-  //Point leftEyePoint = eye.findEyeCenter(left);
-  //Point rightEyePoint = eye.findEyeCenter(right);
-
-  //Point cornerleftEyePoint = eye.findIrirBorderLeft(left, leftEyePoint);
-  //Point cornerrightEyePoint = eye.findIrirBorderRight(right, rightEyePoint);
-
-  //circle(left, leftEyePoint, 1, Scalar(255, 0, 0));
-  //circle(left, cornerleftEyePoint, 1, Scalar(255, 0, 0));
-  //circle(right, rightEyePoint, 1, Scalar(255, 0, 0));
-  //circle(right, cornerrightEyePoint, 1, Scalar(255, 0, 0));
-
-
-  //imshow("Hello Word!2", left);
+  if(land.printLandmarks(test, 1))
+      imshow("Landmark: ", test);
   cvWaitKey(0);
+}
 
+void test2()
+{
+  Mat test;
+  test = imread("./img/good/01.jpg");
+  EyesCenterTracking eye = EyesCenterTracking();
+
+  HaarRoi elemets = HaarRoi(test);
+  Mat face = Util::cutImage(test, elemets.getRoiFace());
+  imshow("Face: ", face);
+
+  Mat eyePair = Util::cutImage(face, elemets.getRoiEyersPair());
+  imshow("Eye pair: ", eyePair);
+
+  Mat eyeRight = Util::cutImage(eyePair, elemets.getRoiEyeRight());
+  Mat eyeLeft = Util::cutImage(eyePair, elemets.getRoiEyeLeft());
+
+  Point right = eye.findEyeCenter(eyeRight);
+  Point left = eye.findEyeCenter(eyeLeft);
+  cv::circle(eyeRight, right, 2, Scalar(0, 255, 0));
+  cv::circle(eyeLeft, left, 2, Scalar(0, 255, 0));
+
+  imshow("Eye right: ", eyeRight);
+  imshow("Eye left: ", eyeLeft);
+  cvWaitKey(0);
+}
+
+int main(int argc, char const *argv[])
+{
+  test2();
   return EXIT_SUCCESS;
 }

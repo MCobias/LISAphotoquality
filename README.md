@@ -29,4 +29,4 @@ in *IEEE International. Conference on Computer Vision (ICCV)*,  2015
 
 Copyright can be found in the Copyright.txt
 
-You have to respect boost, dlib and opencv licenses.
+You have to respect boost, openblas, dlib and opencv licenses.

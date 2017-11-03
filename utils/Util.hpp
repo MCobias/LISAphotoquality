@@ -25,6 +25,7 @@ class Util
 public:
   static bool existsImage(Mat image);
   static Mat cutImage(Mat image, Rect form);
+  static Mat resizeImage(Mat image, float percent);
   static float getDistanceBtn2Pnts(Point2f p1, Point2f p2);
   static Mat coloredToGray(Mat image);
   static vector<string> splitAtCommas(const string& row);

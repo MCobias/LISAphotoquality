@@ -23,6 +23,18 @@ Mat Util::cutImage(Mat image, Rect form)
   return Mat();
 }
 
+Mat Util::resizeImage(Mat image, float percent)
+{
+  if(existsImage(image))
+  {
+    Mat dst;
+    Size size(image.rows*percent, (image.rows*percent)/0.75);
+    resize(image, dst, size);
+    return dst;
+  }
+  return Mat();
+}
+
 Mat Util::coloredToGray(Mat image)
 {
   if(existsImage(image))
