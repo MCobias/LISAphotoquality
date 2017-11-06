@@ -11,8 +11,8 @@ ImageAttribute::ImageAttribute(Mat image)
   this->contrast = this->calcContrast(image);
   this->blur = this->calcBlur(image);
 }
-float ImageAttribute::calcBrightness(Mat image)
 
+float ImageAttribute::calcBrightness(Mat image)
 {
     Mat imageGray = Util::coloredToGray(image);
     multiply(imageGray, Scalar(0.2126, 0.7152, 0.0722), imageGray);

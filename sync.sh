@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Organization and remove some bugs."
+git commit -m "Organization and tests."
 
 git push -f origin master

@@ -18,7 +18,7 @@ using namespace cv;
 void test()
 {
   Mat test;
-  test = imread("./img/good/03.jpg");
+  test = imread("./img/AF01DIS.JPG");
 
   HaarRoi elemets = HaarRoi(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
@@ -58,6 +58,6 @@ void test2()
 
 int main(int argc, char const *argv[])
 {
-  test2();
+  test();
   return EXIT_SUCCESS;
 }

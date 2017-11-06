@@ -81,8 +81,20 @@ bool FindLandmark::printLandmarks(cv::Mat &image, int thickness)
 		cv::line(image, landmarksFace[i], landmarksFace[i - 1], cv::Scalar(0, 0, 255), thickness);
 	cv::line(image, landmarksFace[60], landmarksFace[67], cv::Scalar(0, 0, 255), thickness);
 
+    for(size_t i = 0; i < landmarksFace.size(); i++)
+        cv::circle(image, landmarksFace[i], 2, Scalar(0, 255, 0));
+
+    cv::Point eyeLeftCenter = getLeftCenterEye();
+    cv::circle(image, eyeLeftCenter, 2, Scalar(0, 165, 255));
+
+    cv::Point eyeRightCenter = getRightCenterEye();
+    cv::circle(image, eyeRightCenter, 2, Scalar(0, 165, 255));
+
 	for(size_t i = 0; i < landmarksFace.size(); i++)
-		cv::putText(image, Util::intToStr(i), landmarksFace[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
+		cv::putText(image, Util::intToStr(i+1), landmarksFace[i], FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
+
+    cv::putText(image, Util::intToStr(landmarksFace.size()+2), eyeLeftCenter, FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
+    cv::putText(image, Util::intToStr(landmarksFace.size()+3), eyeRightCenter, FONT_HERSHEY_PLAIN, 0.5, cv::Scalar(0, 0, 0), thickness);
   return true;
 }
 
