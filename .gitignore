@@ -5,7 +5,7 @@
 *
 
 # ... except the .gitignore...
-!.gitkeep
+!.gitignore
 
 # ... and all text files.
 !*.jpg
