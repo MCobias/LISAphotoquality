@@ -5,8 +5,10 @@
 *
 
 # ... except the .gitignore...
-!.gitignore
+!.gitkeep
 
 # ... and all text files.
 !*.jpg
+!*.JPG
 !*.png
+!*.PNG
