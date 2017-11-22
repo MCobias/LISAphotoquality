@@ -27,6 +27,7 @@ public:
   cv::Point3f getFaceApproxEulerAngles();
   cv::Rect getFaceBBoxFromLandmarks(std::vector<cv::Point> landmarks, cv::Size imageSize, bool square);
   bool printLandmarks(cv::Mat &image, int thickness);
+  bool printLandmarksZero(cv::Mat &image, int thickness);
   std::vector<cv::Point> getLandmark();
   ~FindLandmark();
 private:

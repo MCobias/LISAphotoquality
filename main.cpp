@@ -15,17 +15,27 @@
 using namespace std;
 using namespace cv;
 
+/**
+* @ Normalize image colored to gray
+*/
+bool normImage(Mat &image)
+{
+    if(image.channels() == 3)
+        image = Util::coloredToGray(image);
+    return true;
+}
+
+/*=================================================================*/
 void test()
 {
   Mat test;
-  test = imread("./img/AF01DIS.JPG");
-
+  test = imread("./img/glasses/01.jpg");
   HaarRoi elemets = HaarRoi(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
   imshow("Face: ", face);
 
   FindLandmark land = FindLandmark(test, elemets.getRoiFace());
-  if(land.printLandmarks(test, 1))
+  if(land.printLandmarksZero(test, 1))
       imshow("Landmark: ", test);
   cvWaitKey(0);
 }
@@ -55,6 +65,7 @@ void test2()
   imshow("Eye left: ", eyeLeft);
   cvWaitKey(0);
 }
+/*=================================================================*/
 
 int main(int argc, char const *argv[])
 {

@@ -98,6 +98,18 @@ bool FindLandmark::printLandmarks(cv::Mat &image, int thickness)
   return true;
 }
 
+bool FindLandmark::printLandmarksZero(cv::Mat &image, int thickness)
+{
+    if (landmarksFace.size() != 68)
+      return false;
+
+    for(size_t i = 0; i < landmarksFace.size(); i++)
+        cv::line(image, landmarksFace[i], landmarksFace[30], cv::Scalar(0, 0, 255), thickness);
+
+    cv::circle(image, landmarksFace[30], 6, Scalar(0, 255, 0));
+    return true;
+}
+
 cv::Point FindLandmark::getLeftCenterEye()
 {
   if (landmarksFace.size() != 68) return Point2f();

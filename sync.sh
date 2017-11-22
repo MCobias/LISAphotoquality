@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Organization and tests."
+git commit -m "Rename project."
 
 git push -f origin master

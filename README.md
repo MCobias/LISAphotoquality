@@ -1,4 +1,4 @@
-# ICAOphotoquality: Analysis automatic facial images for passports photos.
+# LISAphotoquality: Analysis automatic facial images for passports photos.
 
 ## Functionality
 
