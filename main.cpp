@@ -7,7 +7,7 @@
 //Local includes
 #include "utils/Util.hpp"
 #include "utils/ImageDegradation.hpp"
-#include "utils/EyesCenterTracking.hpp"
+#include "utils/FindCenterEyes.hpp"
 #include "utils/FindLandmark.hpp"
 #include "utils/FindHaar.hpp"
 #include "ImageAttribute.hpp"
@@ -44,7 +44,7 @@ void test2()
 {
   Mat test;
   test = imread("./img/good/01.jpg");
-  EyesCenterTracking eye = EyesCenterTracking();
+  FindCenterEyes eye = FindCenterEyes();
 
   FindHaar elemets = FindHaar(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());

@@ -4,7 +4,7 @@
 */
 #include <queue>
 #include "Util.hpp"
-#include "EyesCenterTracking.hpp"
+#include "FindCenterEyes.hpp"
 
 using namespace std;
 
@@ -17,16 +17,16 @@ float kEyeCornerKernel[4][6] = {
     { -1,-1,-1,-1, 0, 3 },
     { 1, 1, 1, 1, 1, 1 },};
 
-EyesCenterTracking::EyesCenterTracking(){}
+FindCenterEyes::FindCenterEyes(){}
 
-EyesCenterTracking::~EyesCenterTracking(){}
+FindCenterEyes::~FindCenterEyes(){}
 
 /**
 * @details Busca subpixel do canto do olho.
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Mat EyesCenterTracking::matrixMagnitude(const Mat &matX, const Mat &matY)
+Mat FindCenterEyes::matrixMagnitude(const Mat &matX, const Mat &matY)
 {
   Mat mags(matX.rows, matX.cols, CV_64F);
   for (int y = 0; y < matX.rows; ++y)
@@ -48,7 +48,7 @@ Mat EyesCenterTracking::matrixMagnitude(const Mat &matX, const Mat &matY)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Mat EyesCenterTracking::computeMatXGradient(const Mat &mat)
+Mat FindCenterEyes::computeMatXGradient(const Mat &mat)
 {
   Mat out(mat.rows, mat.cols, CV_64F);
 
@@ -72,7 +72,7 @@ Mat EyesCenterTracking::computeMatXGradient(const Mat &mat)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-double EyesCenterTracking::computeDynamicThreshold(const Mat &mat, double stdDevFactor)
+double FindCenterEyes::computeDynamicThreshold(const Mat &mat, double stdDevFactor)
 {
   Scalar stdMagnGrad, meanMagnGrad;
   meanStdDev(mat, meanMagnGrad, stdMagnGrad);
@@ -80,7 +80,7 @@ double EyesCenterTracking::computeDynamicThreshold(const Mat &mat, double stdDev
   return stdDevFactor * stdDev + meanMagnGrad[0];
 }
 
-Mat EyesCenterTracking::setContournAndFind(Mat drawing, Point pt, vector<vector<Point> > contours, vector<Vec4i> hierarchy)
+Mat FindCenterEyes::setContournAndFind(Mat drawing, Point pt, vector<vector<Point> > contours, vector<Vec4i> hierarchy)
 {
   //Gerar contornos
   int valMaskAux = drawing.rows*0.10;
@@ -102,7 +102,7 @@ Mat EyesCenterTracking::setContournAndFind(Mat drawing, Point pt, vector<vector<
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Point EyesCenterTracking::findEyeCenter(Mat eye)
+Point FindCenterEyes::findEyeCenter(Mat eye)
 {
   Point eyeCenter;
   Mat eyeGray = Util::coloredToGray(eye);
@@ -202,7 +202,7 @@ Point EyesCenterTracking::findEyeCenter(Mat eye)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-void EyesCenterTracking::testPossibleCentersFormula(int x, int y, const Mat &weight, double gx, double gy, Mat &out)
+void FindCenterEyes::testPossibleCentersFormula(int x, int y, const Mat &weight, double gx, double gy, Mat &out)
 {
   const float kWeightDivisor = 1.0;
   const bool kEnableWeight = true;
@@ -244,7 +244,7 @@ void EyesCenterTracking::testPossibleCentersFormula(int x, int y, const Mat &wei
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-bool EyesCenterTracking::inMat(Point p, int rows, int cols)
+bool FindCenterEyes::inMat(Point p, int rows, int cols)
 {
   return p.x >= 0 && p.x < cols && p.y >= 0 && p.y < rows;
 }
@@ -254,7 +254,7 @@ bool EyesCenterTracking::inMat(Point p, int rows, int cols)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-bool EyesCenterTracking::floodShouldPushPoint(const Point &np, const Mat &mat)
+bool FindCenterEyes::floodShouldPushPoint(const Point &np, const Mat &mat)
 {
   return inMat(np, mat.rows, mat.cols);
 }
@@ -264,7 +264,7 @@ bool EyesCenterTracking::floodShouldPushPoint(const Point &np, const Mat &mat)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Mat EyesCenterTracking::floodKillEdges(Mat &mat)
+Mat FindCenterEyes::floodKillEdges(Mat &mat)
 {
   rectangle(mat, Rect(0, 0, mat.cols, mat.rows), 255);
   Mat mask(mat.rows, mat.cols, CV_8U, 255);
@@ -299,7 +299,7 @@ Mat EyesCenterTracking::floodKillEdges(Mat &mat)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-void EyesCenterTracking::createCornerKernels()
+void FindCenterEyes::createCornerKernels()
 {
     rightCornerKernel = new cv::Mat(4, 6, CV_32F, kEyeCornerKernel);
     leftCornerKernel = new cv::Mat(4, 6, CV_32F);
@@ -312,7 +312,7 @@ void EyesCenterTracking::createCornerKernels()
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-void EyesCenterTracking::releaseCornerKernels()
+void FindCenterEyes::releaseCornerKernels()
 {
   delete leftCornerKernel;
   delete rightCornerKernel;
@@ -323,7 +323,7 @@ void EyesCenterTracking::releaseCornerKernels()
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Mat EyesCenterTracking::eyeCornerMap(const cv::Mat &region, bool left, bool left2)
+Mat FindCenterEyes::eyeCornerMap(const cv::Mat &region, bool left, bool left2)
 {
   Mat cornerMap;
   Size sizeRegion = region.size();
@@ -340,7 +340,7 @@ Mat EyesCenterTracking::eyeCornerMap(const cv::Mat &region, bool left, bool left
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Point2f EyesCenterTracking::findEyeCorner(Mat region, bool left, bool left2)
+Point2f FindCenterEyes::findEyeCorner(Mat region, bool left, bool left2)
 {
   Mat cornerMap = eyeCornerMap(region, left, left2);
   Point maxP;
@@ -356,7 +356,7 @@ Point2f EyesCenterTracking::findEyeCorner(Mat region, bool left, bool left2)
 *          Using some code from: https://github.com/trishume/eyeLike
 *          http://thume.ca/projects/2012/11/04/simple-accurate-eye-center-tracking-in-opencv/
 */
-Point2f EyesCenterTracking::findSubpixelEyeCorner(Mat region, Point maxP)
+Point2f FindCenterEyes::findSubpixelEyeCorner(Mat region, Point maxP)
 {
   Point maxP2;
   Size sizeRegion = region.size();
@@ -376,7 +376,7 @@ Point2f EyesCenterTracking::findSubpixelEyeCorner(Mat region, Point maxP)
 *
 * @return right Border Point.
 */
-Point EyesCenterTracking::findIrirBorderRight(Mat img, Point pnt)
+Point FindCenterEyes::findIrirBorderRight(Mat img, Point pnt)
 {
   cvtColor(img, img, CV_BGR2GRAY);
   Mat copy_img = img.clone();
@@ -410,7 +410,7 @@ Point EyesCenterTracking::findIrirBorderRight(Mat img, Point pnt)
 *
 * @return left Border Point.
 */
-Point EyesCenterTracking::findIrirBorderLeft(Mat img, Point pnt)
+Point FindCenterEyes::findIrirBorderLeft(Mat img, Point pnt)
 {
   cvtColor(img, img, CV_BGR2GRAY);
   Mat copy_img = img.clone();
@@ -446,7 +446,7 @@ Point EyesCenterTracking::findIrirBorderLeft(Mat img, Point pnt)
 *
 * @return existe Found or not found near points.
 */
-bool EyesCenterTracking::existContourNearPointCenter(vector<Point> contourPoints, Point pnt, int maskAux)
+bool FindCenterEyes::existContourNearPointCenter(vector<Point> contourPoints, Point pnt, int maskAux)
 {
   bool existe = false;
   int rangeMintX = pnt.x - maskAux;
@@ -481,7 +481,7 @@ bool EyesCenterTracking::existContourNearPointCenter(vector<Point> contourPoints
 *
 * @return maxDist Pixel Distance.
 */
-int EyesCenterTracking::maxDistanceBtnPoints(vector<Point> contourPoints)
+int FindCenterEyes::maxDistanceBtnPoints(vector<Point> contourPoints)
 {
   int maxDist = 0;
   int dist = 0;
@@ -506,7 +506,7 @@ int EyesCenterTracking::maxDistanceBtnPoints(vector<Point> contourPoints)
 *
 * @return res Is or not the Eye Pair region.
 */
-bool EyesCenterTracking::isEyePairRegion(const Mat &img)
+bool FindCenterEyes::isEyePairRegion(const Mat &img)
 {
   bool res = false;
   Mat bw;
@@ -529,7 +529,7 @@ bool EyesCenterTracking::isEyePairRegion(const Mat &img)
 * @brief Verify circle.
 *
 */
-float EyesCenterTracking::verifyCircle(Mat dt, Point2f center, float radius, vector<Point2f> & inlierSet)
+float FindCenterEyes::verifyCircle(Mat dt, Point2f center, float radius, vector<Point2f> & inlierSet)
 {
   unsigned int counter = 0;
   unsigned int inlier = 0;
@@ -571,7 +571,7 @@ float EyesCenterTracking::verifyCircle(Mat dt, Point2f center, float radius, vec
 * @param radius circle radius.
 *
 */
-void EyesCenterTracking::getCircle(Point2f& p1, Point2f& p2, Point2f& p3, Point2f& center, float& radius)
+void FindCenterEyes::getCircle(Point2f& p1, Point2f& p2, Point2f& p3, Point2f& center, float& radius)
 {
   float x1 = p1.x;
   float x2 = p2.x;
@@ -602,7 +602,7 @@ void EyesCenterTracking::getCircle(Point2f& p1, Point2f& p2, Point2f& p3, Point2
 * @return pointPositions Vector Points.
 *
 */
-vector<Point2f> EyesCenterTracking::getPointPositions(Mat binaryImage)
+vector<Point2f> FindCenterEyes::getPointPositions(Mat binaryImage)
 {
   vector<Point2f> pointPositions;
   for (unsigned int y = 0; y<binaryImage.rows; ++y)
@@ -631,7 +631,7 @@ vector<Point2f> EyesCenterTracking::getPointPositions(Mat binaryImage)
 * @return pRes Superior point inrtersection.
 *
 */
-Point2f EyesCenterTracking::getCirclesIntersection(Point2f p0, float r0, Point2f p1, float r1)
+Point2f FindCenterEyes::getCirclesIntersection(Point2f p0, float r0, Point2f p1, float r1)
 {
   Point2f pRes = Point2f(0, 0);
 
@@ -694,7 +694,7 @@ Point2f EyesCenterTracking::getCirclesIntersection(Point2f p0, float r0, Point2f
 * @return result Image processed.
 *
 */
-Mat EyesCenterTracking::fillHoles(Mat GrayImage)
+Mat FindCenterEyes::fillHoles(Mat GrayImage)
 {
   cv::normalize(GrayImage, GrayImage, 0, 1, cv::NORM_MINMAX);
 
@@ -728,7 +728,7 @@ Mat EyesCenterTracking::fillHoles(Mat GrayImage)
 * @return res Pixel Position.
 *
 */
-Point2f EyesCenterTracking::getMostWhitePixel(Mat img, bool isLeft)
+Point2f FindCenterEyes::getMostWhitePixel(Mat img, bool isLeft)
  {
   threshold(img, img, 40, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
   //imwrite("out_DEBUG/LEFT_eye-LEFT_CONER_BORDER.png", img);

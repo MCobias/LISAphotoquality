@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Rename class HaarRoi to FindHaar."
+git commit -m "Rename class EyesCenterTracking to FindCenterEyes."
 
 git push -f origin master
