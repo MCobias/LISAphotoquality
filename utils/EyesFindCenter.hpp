@@ -4,8 +4,8 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#ifndef FindCenterEyes_HPP
-#define FindCenterEyes_HPP
+#ifndef EyesFindCenter_HPP
+#define EyesFindCenter_HPP
 
 #include "Util.hpp"
 #include <opencv2/opencv.hpp>
@@ -16,11 +16,11 @@ using namespace std;
 #define kEyeLeft true
 #define kEyeRight false
 
-class FindCenterEyes
+class EyesFindCenter
 {
 public:
-    FindCenterEyes();
-    ~FindCenterEyes();
+    EyesFindCenter();
+    ~EyesFindCenter();
     Point findEyeCenter(Mat eyeImage);
     void createCornerKernels();
     void releaseCornerKernels();

@@ -7,9 +7,9 @@
 //Local includes
 #include "utils/Util.hpp"
 #include "utils/ImageDegradation.hpp"
-#include "utils/FindCenterEyes.hpp"
-#include "utils/FindLandmark.hpp"
-#include "utils/FindHaar.hpp"
+#include "utils/EyesFindCenter.hpp"
+#include "utils/LandmarkFind.hpp"
+#include "utils/HaarFind.hpp"
 #include "ImageAttribute.hpp"
 
 using namespace std;
@@ -30,11 +30,11 @@ void test()
 {
   Mat test;
   test = imread("./img/glasses/01.jpg");
-  FindHaar elemets = FindHaar(test);
+  HaarFind elemets = HaarFind(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
   imshow("Face: ", face);
 
-  FindLandmark land = FindLandmark(test, elemets.getRoiFace());
+  LandmarkFind land = LandmarkFind(test, elemets.getRoiFace());
   if(land.printLandmarksZero(test, 1))
       imshow("Landmark: ", test);
   cvWaitKey(0);
@@ -44,9 +44,9 @@ void test2()
 {
   Mat test;
   test = imread("./img/good/01.jpg");
-  FindCenterEyes eye = FindCenterEyes();
+  EyesFindCenter eye = EyesFindCenter();
 
-  FindHaar elemets = FindHaar(test);
+  HaarFind elemets = HaarFind(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
   imshow("Face: ", face);
 

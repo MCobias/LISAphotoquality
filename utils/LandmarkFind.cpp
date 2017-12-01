@@ -1,9 +1,9 @@
 /**
 *    Using some code from: https://github.com/YuvalNirkin/find_face_landmarks
 */
-#include "FindLandmark.hpp"
+#include "LandmarkFind.hpp"
 
-void FindLandmark::loadShapePredictor()
+void LandmarkFind::loadShapePredictor()
 {
   if(ifstream("./data/shape_predictor_68_face_landmarks.dat"))
      dlib::deserialize("./data/shape_predictor_68_face_landmarks.dat") >> landmark_model;
@@ -11,7 +11,7 @@ void FindLandmark::loadShapePredictor()
       std::cout << "(!) Error Loading shape predictor!" << '\n';
 }
 
-FindLandmark::FindLandmark(cv::Mat image, cv::Rect rectFace)
+LandmarkFind::LandmarkFind(cv::Mat image, cv::Rect rectFace)
 {
   loadShapePredictor();
   this->landmarksFace = extractPoints(image, rectFace);
@@ -22,7 +22,7 @@ static dlib::rectangle opencvRectToDlib(cv::Rect form)
   return dlib::rectangle((long)form.tl().x, (long)form.tl().y, (long)form.br().x - 1, (long)form.br().y - 1);
 }
 
-void FindLandmark::dlibObjToPoints(const dlib::full_object_detection& obj, std::vector<cv::Point>& points)
+void LandmarkFind::dlibObjToPoints(const dlib::full_object_detection& obj, std::vector<cv::Point>& points)
 {
   points.resize(obj.num_parts());
   for (unsigned long i = 0; i < obj.num_parts(); i++)
@@ -34,7 +34,7 @@ void FindLandmark::dlibObjToPoints(const dlib::full_object_detection& obj, std::
   }
 }
 
-std::vector<cv::Point> FindLandmark::extractPoints(cv::Mat image, cv::Rect rectFace)
+std::vector<cv::Point> LandmarkFind::extractPoints(cv::Mat image, cv::Rect rectFace)
 {
   dlib::cv_image<dlib::bgr_pixel> cimage(image);
   std::vector<cv::Point> pointsFace;
@@ -44,7 +44,7 @@ std::vector<cv::Point> FindLandmark::extractPoints(cv::Mat image, cv::Rect rectF
   return pointsFace;
 }
 
-bool FindLandmark::printLandmarks(cv::Mat &image, int thickness)
+bool LandmarkFind::printLandmarks(cv::Mat &image, int thickness)
 {
   if (landmarksFace.size() != 68)
     return false;
@@ -98,7 +98,7 @@ bool FindLandmark::printLandmarks(cv::Mat &image, int thickness)
   return true;
 }
 
-bool FindLandmark::printLandmarksZero(cv::Mat &image, int thickness)
+bool LandmarkFind::printLandmarksZero(cv::Mat &image, int thickness)
 {
     if (landmarksFace.size() != 68)
       return false;
@@ -110,7 +110,7 @@ bool FindLandmark::printLandmarksZero(cv::Mat &image, int thickness)
     return true;
 }
 
-cv::Point FindLandmark::getLeftCenterEye()
+cv::Point LandmarkFind::getLeftCenterEye()
 {
   if (landmarksFace.size() != 68) return Point2f();
 
@@ -121,7 +121,7 @@ cv::Point FindLandmark::getLeftCenterEye()
   return (leftEye / 6);
 }
 
-cv::Point FindLandmark::getRightCenterEye()
+cv::Point LandmarkFind::getRightCenterEye()
 {
   if (landmarksFace.size() != 68) return Point2f();
 
@@ -132,7 +132,7 @@ cv::Point FindLandmark::getRightCenterEye()
   return (rightEye / 6);
 }
 
-std::vector<cv::Point> FindLandmark::getMouth()
+std::vector<cv::Point> LandmarkFind::getMouth()
 {
     if (landmarksFace.size() != 68) return std::vector<cv::Point>();
 
@@ -143,7 +143,7 @@ std::vector<cv::Point> FindLandmark::getMouth()
     return mouthPoints;
 }
 
-float FindLandmark::getFaceApproxVertAngle()
+float LandmarkFind::getFaceApproxVertAngle()
 {
   if (landmarksFace.size() != 68) return 0;
 
@@ -160,7 +160,7 @@ float FindLandmark::getFaceApproxVertAngle()
   return d * (2 * MAXFACEANGLE) * (CV_PI / 180.0f);
 }
 
-float FindLandmark::getFaceApproxHorAngle()
+float LandmarkFind::getFaceApproxHorAngle()
 {
   if (landmarksFace.size() != 68) return 0;
 
@@ -174,7 +174,7 @@ float FindLandmark::getFaceApproxHorAngle()
   return d * (2 * MAXFACEANGLE) * (CV_PI / 180.0f);
 }
 
-float FindLandmark::getFaceApproxTiltAngle()
+float LandmarkFind::getFaceApproxTiltAngle()
 {
   if (landmarksFace.size() != 68) return 0;
 
@@ -184,7 +184,7 @@ float FindLandmark::getFaceApproxTiltAngle()
   return atan2(v.y, v.x);
 }
 
-cv::Point3f FindLandmark::getFaceApproxEulerAngles()
+cv::Point3f LandmarkFind::getFaceApproxEulerAngles()
 {
   float x = getFaceApproxVertAngle();
   float y = getFaceApproxHorAngle();
@@ -193,7 +193,7 @@ cv::Point3f FindLandmark::getFaceApproxEulerAngles()
   return cv::Point3f(x, y, z);
 }
 
-cv::Rect FindLandmark::getFaceBBoxFromLandmarks(std::vector<cv::Point> landmarks, cv::Size imageSize, bool square)
+cv::Rect LandmarkFind::getFaceBBoxFromLandmarks(std::vector<cv::Point> landmarks, cv::Size imageSize, bool square)
 {
   int xmin(numeric_limits<int>::max()), ymin(numeric_limits<int>::max()), xmax(-1), ymax(-1), sumx(0), sumy(0);
   for (const cv::Point& p : landmarks)
@@ -245,9 +245,9 @@ cv::Rect FindLandmark::getFaceBBoxFromLandmarks(std::vector<cv::Point> landmarks
   return cv::Rect(Point(xmin, ymin), cv::Point(xmax, ymax));
 }
 
-std::vector<cv::Point> FindLandmark::getLandmark()
+std::vector<cv::Point> LandmarkFind::getLandmark()
 {
   return this->landmarksFace;
 }
 
-FindLandmark::~FindLandmark(){}
+LandmarkFind::~LandmarkFind(){}

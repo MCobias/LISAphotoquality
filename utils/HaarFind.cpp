@@ -4,7 +4,7 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#include "FindHaar.hpp"
+#include "HaarFind.hpp"
 
 /**
 * @brief Load Cascade Classifier
@@ -12,7 +12,7 @@
 * @details Carrega o classificador para identificacao das faces
 *
 */
-void FindHaar::loadCascadeClassifier()
+void HaarFind::loadCascadeClassifier()
 {
   if (!this->faceCascade.load("./data/haarcascade_frontalface_alt.xml"))
   {
@@ -24,7 +24,7 @@ void FindHaar::loadCascadeClassifier()
   }
 }
 
-FindHaar::FindHaar(Mat image)
+HaarFind::HaarFind(Mat image)
 {
   loadCascadeClassifier();
   Mat imageGray = Util::coloredToGray(image);
@@ -35,7 +35,7 @@ FindHaar::FindHaar(Mat image)
   calculeEyeSingle(imgFace, eyes);
 }
 
-Rect_<double> FindHaar::findFace(Mat image)
+Rect_<double> HaarFind::findFace(Mat image)
 {
   vector<Rect> faces;
   Rect_<double> singleFace;
@@ -83,7 +83,7 @@ Rect_<double> FindHaar::findFace(Mat image)
   return singleFace;
 }
 
-Rect_<double> FindHaar::findEyesPair(Mat face)
+Rect_<double> HaarFind::findEyesPair(Mat face)
 {
     vector<Rect> eyes;
     vector<Rect_<double>> eyePair;
@@ -155,7 +155,7 @@ Rect_<double> FindHaar::findEyesPair(Mat face)
     return eyePairRegion;
 }
 
-void FindHaar::calculeEyeSingle(Mat imageFace, Rect eyePair)
+void HaarFind::calculeEyeSingle(Mat imageFace, Rect eyePair)
 {
   Mat imgRegion = Util::cutImage(imageFace, eyePair);
   double midle = imgRegion.cols / 2;
@@ -163,24 +163,24 @@ void FindHaar::calculeEyeSingle(Mat imageFace, Rect eyePair)
   this->rectEyeRight = Rect_<double>(midle, 0, midle, imgRegion.rows);
 }
 
-Rect_<double> FindHaar::getRoiFace()
+Rect_<double> HaarFind::getRoiFace()
 {
     return this->face;
 }
 
-Rect_<double> FindHaar::getRoiEyersPair()
+Rect_<double> HaarFind::getRoiEyersPair()
 {
     return this->eyePair;
 }
 
-Rect_<double> FindHaar::getRoiEyeLeft()
+Rect_<double> HaarFind::getRoiEyeLeft()
 {
     return this->rectEyeLeft;
 }
 
-Rect_<double> FindHaar::getRoiEyeRight()
+Rect_<double> HaarFind::getRoiEyeRight()
 {
     return this->rectEyeRight;
 }
 
-FindHaar::~FindHaar(){}
+HaarFind::~HaarFind(){}

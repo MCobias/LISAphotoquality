@@ -3,8 +3,8 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#ifndef FindLandmark_HPP
-#define FindLandmark_HPP
+#ifndef LandmarkFind_HPP
+#define LandmarkFind_HPP
 
 #include <iostream>
 #include <opencv2/imgproc.hpp>
@@ -16,11 +16,11 @@
 
 const float MAXFACEANGLE = 75.0f;
 
-class FindLandmark
+class LandmarkFind
 {
 public:
   void loadShapePredictor();
-  FindLandmark(cv::Mat image, cv::Rect rectFace);
+  LandmarkFind(cv::Mat image, cv::Rect rectFace);
   cv::Point getLeftCenterEye();
   cv::Point getRightCenterEye();
   std::vector<cv::Point> getMouth();
@@ -29,7 +29,7 @@ public:
   bool printLandmarks(cv::Mat &image, int thickness);
   bool printLandmarksZero(cv::Mat &image, int thickness);
   std::vector<cv::Point> getLandmark();
-  ~FindLandmark();
+  ~LandmarkFind();
 private:
   std::vector<cv::Point> landmarksFace;
   dlib::shape_predictor landmark_model;

@@ -4,8 +4,8 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#ifndef FindHaar_HPP
-#define FindHaar_HPP
+#ifndef HaarFind_HPP
+#define HaarFind_HPP
 
 #include <string>
 #include <opencv2/opencv.hpp>
@@ -14,15 +14,15 @@
 using namespace std;
 using namespace cv;
 
-class FindHaar
+class HaarFind
 {
 public:
-    FindHaar(Mat image);
+    HaarFind(Mat image);
     Rect_<double> getRoiFace();
     Rect_<double> getRoiEyersPair();
     Rect_<double> getRoiEyeLeft();
     Rect_<double> getRoiEyeRight();
-    ~FindHaar();
+    ~HaarFind();
 private:
     CascadeClassifier faceCascade, eyePairCascade;
     Rect_<double> rectEyeLeft, rectEyeRight;

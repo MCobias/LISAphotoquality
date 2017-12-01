@@ -2,6 +2,6 @@
 
 git add .
 
-git commit -m "Rename class EyesCenterTracking to FindCenterEyes."
+git commit -m "Rename class."
 
 git push -f origin master
