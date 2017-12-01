@@ -9,7 +9,7 @@
 #include "utils/ImageDegradation.hpp"
 #include "utils/EyesCenterTracking.hpp"
 #include "utils/FindLandmark.hpp"
-#include "utils/HaarRoi.hpp"
+#include "utils/FindHaar.hpp"
 #include "ImageAttribute.hpp"
 
 using namespace std;
@@ -30,7 +30,7 @@ void test()
 {
   Mat test;
   test = imread("./img/glasses/01.jpg");
-  HaarRoi elemets = HaarRoi(test);
+  FindHaar elemets = FindHaar(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
   imshow("Face: ", face);
 
@@ -46,7 +46,7 @@ void test2()
   test = imread("./img/good/01.jpg");
   EyesCenterTracking eye = EyesCenterTracking();
 
-  HaarRoi elemets = HaarRoi(test);
+  FindHaar elemets = FindHaar(test);
   Mat face = Util::cutImage(test, elemets.getRoiFace());
   imshow("Face: ", face);
 

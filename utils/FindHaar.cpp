@@ -4,7 +4,7 @@
 //
 //  Copyright © 2017 Marcelo Cobias. All rights reserved.
 //
-#include "HaarRoi.hpp"
+#include "FindHaar.hpp"
 
 /**
 * @brief Load Cascade Classifier
@@ -12,7 +12,7 @@
 * @details Carrega o classificador para identificacao das faces
 *
 */
-void HaarRoi::loadCascadeClassifier()
+void FindHaar::loadCascadeClassifier()
 {
   if (!this->faceCascade.load("./data/haarcascade_frontalface_alt.xml"))
   {
@@ -24,7 +24,7 @@ void HaarRoi::loadCascadeClassifier()
   }
 }
 
-HaarRoi::HaarRoi(Mat image)
+FindHaar::FindHaar(Mat image)
 {
   loadCascadeClassifier();
   Mat imageGray = Util::coloredToGray(image);
@@ -35,7 +35,7 @@ HaarRoi::HaarRoi(Mat image)
   calculeEyeSingle(imgFace, eyes);
 }
 
-Rect_<double> HaarRoi::findFace(Mat image)
+Rect_<double> FindHaar::findFace(Mat image)
 {
   vector<Rect> faces;
   Rect_<double> singleFace;
@@ -83,7 +83,7 @@ Rect_<double> HaarRoi::findFace(Mat image)
   return singleFace;
 }
 
-Rect_<double> HaarRoi::findEyesPair(Mat face)
+Rect_<double> FindHaar::findEyesPair(Mat face)
 {
     vector<Rect> eyes;
     vector<Rect_<double>> eyePair;
@@ -155,7 +155,7 @@ Rect_<double> HaarRoi::findEyesPair(Mat face)
     return eyePairRegion;
 }
 
-void HaarRoi::calculeEyeSingle(Mat imageFace, Rect eyePair)
+void FindHaar::calculeEyeSingle(Mat imageFace, Rect eyePair)
 {
   Mat imgRegion = Util::cutImage(imageFace, eyePair);
   double midle = imgRegion.cols / 2;
@@ -163,24 +163,24 @@ void HaarRoi::calculeEyeSingle(Mat imageFace, Rect eyePair)
   this->rectEyeRight = Rect_<double>(midle, 0, midle, imgRegion.rows);
 }
 
-Rect_<double> HaarRoi::getRoiFace()
+Rect_<double> FindHaar::getRoiFace()
 {
     return this->face;
 }
 
-Rect_<double> HaarRoi::getRoiEyersPair()
+Rect_<double> FindHaar::getRoiEyersPair()
 {
     return this->eyePair;
 }
 
-Rect_<double> HaarRoi::getRoiEyeLeft()
+Rect_<double> FindHaar::getRoiEyeLeft()
 {
     return this->rectEyeLeft;
 }
 
-Rect_<double> HaarRoi::getRoiEyeRight()
+Rect_<double> FindHaar::getRoiEyeRight()
 {
     return this->rectEyeRight;
 }
 
-HaarRoi::~HaarRoi(){}
+FindHaar::~FindHaar(){}
